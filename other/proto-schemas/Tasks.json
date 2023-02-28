@@ -1,0 +1,56 @@
+{
+    "_id": "",
+    "regular": "",
+    "regulartype": [
+        {
+            "type": "every x days",
+            "interval": ""
+        },
+        {
+            "type": "every x weeks",
+            "interval": ""
+        },
+        {
+            "type": "every month on the xth",
+            "interval": ""
+        },
+        {
+            "type": "every Xth day of the week per month",
+            "interval": ""
+        }
+    ],
+    "datestart": "",
+    "dateend": "",
+    "name": "",
+    "description": "",
+    "subtasks":[
+        ""
+    ],
+    "notify":[
+        {
+            "type": "none"
+        },
+        {
+            "type": "once",
+            "time": "",
+            "when": ""
+        },
+        {
+            "type": "twice",
+            "timestart": "",
+            "timeend": ""
+        },
+        {
+            "type": "regularly",
+            "amt": "",
+            "timefrom": "",
+            "timeto": ""
+        },
+        {
+            "type": "urgent",
+            "amt": "",
+            "timefrom": "",
+            "timeto": ""
+        }
+    ]
+}
