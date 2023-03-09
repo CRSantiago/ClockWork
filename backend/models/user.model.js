@@ -8,7 +8,7 @@ const userSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    calander: [
+    /*calander: [
         {
             month: "january",
             days : [
@@ -119,7 +119,7 @@ const userSchema = new Schema({
                 }
             ]
         }
-    ]
+    ]*/
 }, 
 { collection : 'Users' })
 

@@ -1,0 +1,3 @@
+RESTCLOCKWORK_DB_URI = mongodb+srv://admin:ClockworkIsBadass@clockwork-cluster.5qfrkub.mongodb.net/Clockwork-Main?retryWrites=true&w=majority
+RESTCLOCKWORK_NS = Clockwork-Main
+PORT = 5000
