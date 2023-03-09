@@ -1,13 +1,14 @@
 import app from "./server.js";
 import mongodb from "mongodb";
 import mongoose from "mongoose";
-//import dotenv from "dotenv";
+import dotenv from "dotenv";
 import UsersDAO from "./dao/usersDAO.js";
 
-//dotenv.config();
+dotenv.config();
 //const MongoClient = mongodb.MongoClient;
 
 const port = process.env.PORT|| 8000; //8000 if env can't be accessed
+console.log(process.env.RESTCLOCKWORK_DB_URI);
 mongoose.connect(
     process.env.RESTCLOCKWORK_DB_URI,
     {
@@ -19,9 +20,9 @@ mongoose.connect(
         console.error(err.stack);
         process.exit(1);
     })
-    /*.then(async client => {
+    .then(async client => {
         //await UsersDAO.injectDB(client);
         app.listen(port, () =>{      // start webserver
             console.log(`listening on port ${port}`);
         });
-    })*/;
+    });
