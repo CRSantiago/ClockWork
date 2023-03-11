@@ -7,10 +7,7 @@ export default class TasksDAO {
     // }
     static async apiCreateTask(id, taskData) {
         try {
-            const newTask = new Task({
-                ...taskData,
-                _id: id
-              });
+            const newTask = await Task.create(id, taskData);
             const savedTask = await newTask.save();
             return savedTask.toJSON();
           } catch (error) {

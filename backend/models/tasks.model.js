@@ -4,13 +4,16 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 console.log("task schema init");
 
-const userSchema = new Schema({
-	_id: String,
-	taskID: String,
-	 date: {
-	 	type: String,
-		default: Date.now() //set default
-	 },
+const taskSchema = new Schema({
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		default: mongoose.Types.ObjectId // assign a new ObjectId as default
+	},
+
+	date: {
+		type: String,
+		default: Date.now()
+	},
 	title: String,
 	description: String,
 	 interval: {
@@ -27,10 +30,14 @@ const userSchema = new Schema({
 	 },
 	 notes: String,
 	 notify: String,
-	 notifyintensity: String
+	 notifyintensity: {
+		type: String,
+		enum: ["none", "mild", "moderate", "urgent"]
+	 },
 }, 
 { collection : 'Task' })
 
-const Task = mongoose.model('Task', userSchema);
+
+const Task = mongoose.model('Task', taskSchema);
 
 export default Task;

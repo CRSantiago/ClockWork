@@ -13,7 +13,7 @@ router.post("/register", function(req, res){
 router.post("/login", function(req, res){
     UsersCtrl.apiLogin(req,res);
 });
-router.post("/tasks", function(req, res)
+router.post("/createTask", function(req, res)
 {
     TaskCtrl.apiCreateTask(req, res);
 })
