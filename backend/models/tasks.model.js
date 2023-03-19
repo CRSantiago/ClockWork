@@ -16,8 +16,7 @@ const taskSchema = new Schema({
 	},
 	title: String,
 	description: String,
-	 interval: {
-		type: {
+	interval: {
 			unit: {
 				type: String,
 				enum: ["days", "weeks", "months"],
@@ -25,8 +24,7 @@ const taskSchema = new Schema({
 			  },
 			value: {
 				type: Number,		
-			  },
-		}
+			  }
 	 },
 	 notes: String,
 	 notify: String,
@@ -35,9 +33,9 @@ const taskSchema = new Schema({
 		enum: ["none", "mild", "moderate", "urgent"]
 	 },
 }, 
-{ collection : 'Task' })
+{ collection : 'Tasks' })
 
 
-const Task = mongoose.model('Task', taskSchema);
+const Task = mongoose.model('Tasks', taskSchema);
 
 export default Task;

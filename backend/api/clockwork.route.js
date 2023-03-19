@@ -16,11 +16,15 @@ router.post("/login", function(req, res){
 router.post("/createTask", function(req, res)
 {
     TaskCtrl.apiCreateTask(req, res);
-})
+});
+router.post("/deleteTask", function(req, res)
+{
+    TaskCtrl.apiCreateTask(req, res);
+});
 router.get("/tasks", function(req, res)
 {
     TaskCtrl.getTasks(req, res);
-})
+});
 
 
 

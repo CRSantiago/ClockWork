@@ -2,10 +2,7 @@ import Task from "../models/tasks.model.js";
 
 export default class TasksDAO {
 
-    // static async apiCreateTask(_id, date, title, description, interval, notes, notify, notifyintensity, err) {
-
-    // }
-    static async apiCreateTask(id, taskData) {
+    static async createTask(id, taskData) {
         try {
             const newTask = await Task.create(id, taskData);
             const savedTask = await newTask.save();
@@ -30,8 +27,8 @@ export default class TasksDAO {
             
         //     }
 
-        // static async deleteTask(id, taskId) {
+        //static async deleteTask(id, taskId) {
             
-        // }
+        //}
 
 }

@@ -1,4 +1,5 @@
 // User schema for mongodb
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -8,9 +9,35 @@ const userSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    /*calender: [
-        {
-            month: "january",
+    calendar: {
+        january: {
+            days : [
+                {
+                    day: 0,
+                    Tasks:[
+                    ]
+                }
+            ]
+        },
+        february: {
+            days : [
+                {
+                    day: 0,
+                    Tasks:[
+                    ]
+                }
+            ]
+        },
+        march: {
+            days : [
+                {
+                    day: 0,
+                    Tasks:[
+                    ]
+                }
+            ]
+        },
+        april: {
             days : [
                 {
                     _id: 0,
@@ -19,8 +46,25 @@ const userSchema = new Schema({
                 }
             ]
         },
-        {
-            month: "febuary",
+        may: {
+            days : [
+                {
+                    day: 0,
+                    Tasks:[
+                    ]
+                }
+            ]
+        },
+        june: {
+            days : [
+                {
+                    day: 0,
+                    Tasks:[
+                    ]
+                }
+            ]
+        },
+        july: {
             days : [
                 {
                     _id: 0,
@@ -29,97 +73,52 @@ const userSchema = new Schema({
                 }
             ]
         },
-        {
-            month: "march",
+        august: {
             days : [
                 {
-                    _id: 0,
+                    day: 0,
                     Tasks:[
                     ]
                 }
             ]
         },
-        {
-            month: "april",
+        september: {
             days : [
                 {
-                    _id: 0,
+                    day: 0,
                     Tasks:[
                     ]
                 }
             ]
         },
-        {
-            month: "may",
+        october: {
             days : [
                 {
-                    _id: 0,
+                    day: 0,
                     Tasks:[
                     ]
                 }
             ]
         },
-        {
-            month: "june",
+        november: {
             days : [
                 {
-                    _id: 0,
+                    day: 0,
                     Tasks:[
                     ]
                 }
             ]
         },
-        {
-            month: "july",
+        december: {
             days : [
                 {
-                    _id: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        {
-            month: "august",
-            days : [
-                {
-                    _id: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        {
-            month: "september",
-            days : [
-                {
-                    _id: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        {
-            month: "november",
-            days : [
-                {
-                    _id: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        {
-            month: "december",
-            days : [
-                {
-                    _id: 0,
+                    day: 0,
                     Tasks:[
                     ]
                 }
             ]
         }
-    ]*/
+    }
 }, 
 { collection : 'Users' })
 

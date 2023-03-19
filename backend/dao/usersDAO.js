@@ -74,12 +74,9 @@ export default class UsersDAO{
                                 console.log("can make user");
                                 //update database...
                                 username_t = uname;
-                                //  Probably shouldnt return password in json, even if its hashed
-                                //password_t = hash;
                                 email_t = uemail;
                                 const newUser = new User({
                                     username: username_t ,
-                                    //password: password_t,
                                     password: hash,
                                     email: email_t
                                 })

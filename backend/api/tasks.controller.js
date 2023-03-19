@@ -6,7 +6,7 @@ export default class TasksController{
         try {
           const {id} = req.params;
           const taskData = req.body;
-          const savedTask = await TasksDAO.apiCreateTask(taskData);
+          const savedTask = await TasksDAO.createTask(taskData);
           console.log(savedTask);
           res.status(200).json(savedTask);
         } catch (error) {
