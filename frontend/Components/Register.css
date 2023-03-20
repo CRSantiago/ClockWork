@@ -1,0 +1,62 @@
+
+/* Css for our Register display */
+.registerDisplay{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 200px;
+    padding-bottom: 100px;
+    padding-left: 400px;
+    opacity: 100;
+    object-position: center;
+    position: relative;
+  }
+  
+  .registerDisplay > form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 150px;
+  }
+  
+  .registerDisplay > form > input{
+    width: 350px;
+    height: 50px;
+    font-size: 20px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .registerDisplay > form > button{
+    width: 375px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 5px;
+  }
+  
+  .registerDisplay > form > p{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding-left: 110px;
+  }
+  
+  .registerDisplay > img{
+    object-fit: contain;
+    object-position: left;
+    height: 400px;
+  }
+  
+  .registerClose{
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  
