@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import clockwork from './api/clockwork.route.js'
+import path from 'path'
 
 const app = express()
 if (process.env.NODE_ENV === 'production') {
