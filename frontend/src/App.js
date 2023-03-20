@@ -1,8 +1,13 @@
-import logo from './logo.svg'
-import './App.css'
+import React from 'react';
+import './App.css';
+import './Components/Login.css';
+import LoginPage from './Pages/LoginPage';
 
-function App() {
-  return <div className="App"></div>
+function App()
+{
+  return (
+    <LoginPage />
+  );
 }
 
-export default App
+export default App;
