@@ -3,7 +3,7 @@ import './Header.css';
 
 function Header(){
     return(
-        <div classname="header">
+        <div className="header">
             Welcome to ClockWork
         </div>
     );
