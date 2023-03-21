@@ -1,13 +1,11 @@
-import React from 'react';
-import './App.css';
-import './Components/Login.css';
-import LoginPage from './Pages/LoginPage';
+import './App.css'
 
-function App()
-{
+function App() {
   return (
-    <LoginPage />
-  );
+    <div className="App">
+      <h1>Clockwork!</h1>
+    </div>
+  )
 }
 
 export default App;
