@@ -19,10 +19,10 @@ function Login(){
     {
         //go to a new page, just import API here and if matches input go the the next page
         event.preventDefault();
-        alert(email + ' ' + password)
+        alert( "Username: "+ userName + ' Email' +  email + 'Password ' + password)
         const userLogin = {
-            userName: userName,
-            //email: email,
+            username: userName,
+            email: email,
             password: password
         }
         
@@ -41,9 +41,10 @@ function Login(){
         //connect register API
         const userRegister = {
             email: email,
-            userName: userName,
+            username: userName,
             password: password
         }
+        alert(userRegister.email + userRegister.username + userRegister.password)
         axios.post(buildPath('api/v1/clockwork/register'), userRegister)
         .then(response => console.log(response.data))
         .catch(error => {
@@ -74,8 +75,8 @@ function Login(){
                 {/* Defining our form which includes our user input and the submit button */}
                 <form>
                     <input
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        value={userName} 
+                        onChange={(e) => setUserName(e.target.value)} 
                         placeholder="Enter UserName"
                         type="text"
                     />
