@@ -1,4 +1,5 @@
 // Task schema for mongodb
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -9,9 +10,12 @@ const taskSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		default: mongoose.Types.ObjectId // assign a new ObjectId as default
 	},
+	user:{
+		type: ObjectId
+	},
 
 	date: {
-		type: String,
+		type: Date,
 		default: Date.now()
 	},
 	title: String,

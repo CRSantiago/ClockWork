@@ -10,114 +10,42 @@ const userSchema = new Schema({
     password: String,
     email: String,
     calendar: {
-        january: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        february: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        march: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        april: {
-            days : [
-                {
-                    _id: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        may: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        june: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        july: {
-            days : [
-                {
-                    _id: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        august: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        september: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        october: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        november: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        },
-        december: {
-            days : [
-                {
-                    day: 0,
-                    Tasks:[
-                    ]
-                }
-            ]
-        }
+        "0": [
+            {day: Number, Task: ObjectId}
+        ],
+        "1": [
+            {day: Number, Task: ObjectId}
+        ],
+        "2": [
+            {day: Number, Task: ObjectId}
+        ],
+        "3": [
+            {day: Number, Task: ObjectId}
+        ],
+        "4": [
+            {day: Number, Task: ObjectId}
+        ],
+        "5": [
+            {day: Number, Task: ObjectId}
+        ],
+        "6": [
+            {day: Number, Task: ObjectId}
+        ],
+        "7": [
+            {day: Number, Task: ObjectId}
+        ],
+        "8": [
+            {day: Number, Task: ObjectId}
+        ],
+        "9": [
+            {day: Number, Task: ObjectId}
+        ],
+        "10": [
+            {day: Number, Task: ObjectId}
+        ],
+        "11": [
+            {day: Number, Task: ObjectId}
+        ]
     }
 }, 
 { collection : 'Users' })
