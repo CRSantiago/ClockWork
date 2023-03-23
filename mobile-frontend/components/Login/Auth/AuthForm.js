@@ -5,6 +5,7 @@ import Button from '../ui/Button'
 import Input from './Input'
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
+  const [userName, setUserName] = useState('')
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
@@ -19,6 +20,9 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
   function updateInputValueHandler(inputType, enteredValue) {
     switch (inputType) {
+      case 'userName':
+        setUserName(enteredValue)
+        break
       case 'email':
         setEnteredEmail(enteredValue)
         break
@@ -36,6 +40,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
   function submitHandler() {
     onSubmit({
+      username: userName,
       email: enteredEmail,
       confirmEmail: enteredConfirmEmail,
       password: enteredPassword,
@@ -46,6 +51,13 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   return (
     <View style={styles.form}>
       <View>
+        {!isLogin && (
+          <Input
+            label="Username"
+            onUpdateValue={updateInputValueHandler.bind(this, 'userName')}
+            value={userName}
+          />
+        )}
         <Input
           label="Email Address"
           onUpdateValue={updateInputValueHandler.bind(this, 'email')}
