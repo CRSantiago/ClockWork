@@ -1,12 +1,13 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
+import jwt from "jsonwebtoken";
 //let users;
 
 export default class UsersDAO{
-    static async usersLogin(uname, pass) {
+    static async usersLogin(uname, pass, token) {
         let username_t = ""; //   default values to indicate that user has not been registered correctly
         let password_t = "";
-        let email_t = "";
+        let token_t = "";
         let error = "";
         // TODO: add support for logging in with email
 
@@ -23,7 +24,7 @@ export default class UsersDAO{
             if(data.length == 0) {
               error = "No record found";
               console.log(error);
-              resolve({username_t, password_t, email_t, error});
+              resolve({username_t, password_t, token_t, error});
               return
               }
             bcrypt.compare(pass, data[0].password, (err, match) => {
@@ -37,12 +38,16 @@ export default class UsersDAO{
               if (match){
                 console.log("login successful");
                 username_t = uname;
-                resolve({username_t, password_t, email_t, error});
+                token_t = jwt.sign({ username_t }, 
+                  process.env.JWT_SECRET_KEY, {
+                      expiresIn: 86400
+                  });
+                resolve({username_t, password_t, token_t, error});
               }
               else{
                 error = "wrong password!";
                 console.log(error);
-                resolve({username_t, password_t, email_t, error});
+                resolve({username_t, password_t, token_t, error});
               }
             });
           });

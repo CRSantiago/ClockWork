@@ -2,10 +2,7 @@ import express from "express";
 import UsersCtrl from "./users.controller.js"
 import TaskCtrl from "./tasks.controller.js"
 
-
 const router = express.Router();
-
-
 
 router.post("/register", function(req, res){
     UsersCtrl.apiRegister(req,res);
