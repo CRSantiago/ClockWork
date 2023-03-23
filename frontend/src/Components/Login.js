@@ -3,6 +3,8 @@ import React, { useState} from 'react';
 import './LoginPage.css';
 import './Register.css';
 import './Login.css';
+import axios from "axios"
+import {buildPath} from '../utils/buildPath'
 
 function Login(){
     //Defining our state variables
@@ -17,7 +19,18 @@ function Login(){
     {
         //go to a new page, just import API here and if matches input go the the next page
         event.preventDefault();
-        alert(email + ' ' + password)
+        alert( "Username: "+ userName + ' Email' +  email + 'Password ' + password)
+        const userLogin = {
+            username: userName,
+            email: email,
+            password: password
+        }
+        
+        axios.post(buildPath('api/v1/clockwork/login'), userLogin)
+        .then(response => console.log(response.data))
+        .catch(error => {
+            console.error(error);
+        });
     }
 
     //Register function
@@ -26,6 +39,17 @@ function Login(){
         //Returns to login and adds user to database using api
         alert("Thank you " + userName + " Registration successful, return to login");
         //connect register API
+        const userRegister = {
+            email: email,
+            username: userName,
+            password: password
+        }
+        alert(userRegister.email + userRegister.username + userRegister.password)
+        axios.post(buildPath('api/v1/clockwork/register'), userRegister)
+        .then(response => console.log(response.data))
+        .catch(error => {
+            console.error(error);
+        });
     };
 
     //Function that switches login form to register form or register form to success form
@@ -51,8 +75,8 @@ function Login(){
                 {/* Defining our form which includes our user input and the submit button */}
                 <form>
                     <input
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        value={userName} 
+                        onChange={(e) => setUserName(e.target.value)} 
                         placeholder="Enter UserName"
                         type="text"
                     />
