@@ -1,50 +1,43 @@
-
 /* Css for our login display */
-.loginDisplay{
+.display{
   display: flex;
   flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 200px;
-  padding-bottom: 100px;
-  padding-left: 400px;
+  padding-left: 25%;
+  padding-top: 10%;
+}
+
+.loginDisplay{
+  display: flex;
+  flex-direction: column;
   object-position: center;
   position: relative;
-}
-
-.loginDisplay > form{
-  display: flex;
-  flex-direction: column;
-  margin-top: 150px;
-}
-
-.loginDisplay > form > input{
-  width: 350px;
-  height: 50px;
-  font-size: 20px;
-  padding-left: 20px;
-  margin-bottom: 10px;
+  background-color: #1B4965;
   border-radius: 5px;
 }
 
-.loginDisplay > form > button{
-  width: 375px;
-  height: 50px;
-  font-size: 20px;
-  border-radius: 5px;
-}
-
-.loginDisplay > form > p{
+.loginImage{
   display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  padding-left: 110px;
-}
-
-.loginDisplay > img{
-  object-fit: contain;
+  position: relative;
   object-position: left;
-  height: 400px;
+}
+
+.loginf{
+  display:flex;
+  padding: 25px 25px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.loginf > input{
+  padding: 20px 20px;
+  box-sizing: border-box;
+}
+
+.loginFormText{
+  display: flex;
+  font-size: xx-large;
+  text-align: center;
 }
 
 .loginClose{
@@ -57,10 +50,3 @@
   position: absolute;
   width: 1px;
 }
-
-.Register{
-  color: #0177b7;
-  cursor: pointer;
-  padding-left: 5px;
-}
-
