@@ -1,0 +1,379 @@
+.selectors{
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 50px;
+}
+
+button[name="selected"]{
+  align-items: center;
+  appearance: none;
+  background-clip: padding-box;
+  background-color: initial;
+  background-image: linear-gradient(92.83deg, #62B6CB 0, #CAE9FF 100%);
+  border-style: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: Eina01,sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 24px;
+  margin: 0;
+  min-height: 64px;
+  outline: none;
+  overflow: visible;
+  padding: 19px 26px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: auto;
+  word-break: keep-all;
+  z-index: 0;
+}
+/*Login button*/
+.selectors > button[name="goToLogin"]{
+  align-items: center;
+  appearance: none;
+  background-clip: padding-box;
+  background-color: initial;
+  background-image: none;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: Eina01,sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 24px;
+  margin: 0;
+  min-height: 64px;
+  outline: none;
+  overflow: visible;
+  padding: 19px 26px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: auto;
+  word-break: keep-all;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .selectors > button[name="goToLogin"]{
+    padding: 19px 32px;
+  }
+}
+
+.selectors > button[name="goToLogin"]:before,
+.selectors > button[name="goToLogin"]:after {
+  border-radius: 5px;
+}
+
+.selectors > button[name="goToLogin"]:before {
+  background-image: linear-gradient(92.83deg, #CAE9FF 0, #62B6CB 100%);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -2;
+}
+
+.selectors > button[name="goToLogin"]:after {
+  background-color: initial;
+  background-image: linear-gradient(#1B4956 0, #0c0d0d 100%);
+  bottom: 4px;
+  content: "";
+  display: block;
+  left: 4px;
+  overflow: hidden;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  transition: all 100ms ease-out;
+  z-index: -1;
+}
+
+.selectors > button[name="goToLogin"]:hover:not(:disabled):before {
+  background: linear-gradient(92.83deg, #62B6CB 0%, #CAE9FF 100%);
+}
+
+.selectors > button[name="goToLogin"]:hover:not(:disabled):after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition-timing-function: ease-in;
+  opacity: 0;
+}
+
+.selectors > button[name="goToLogin"]:active:not(:disabled) {
+  color: #ccc;
+}
+
+.selectors > button[name="goToLogin"]:active:not(:disabled):before {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #1B4956 0, #62B6CB 100%);
+}
+
+.selectors > button[name="goToLogin"]:active:not(:disabled):after {
+  background-image: linear-gradient(#1B4956 0, #0c0d0d 100%);
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  top: 4px;
+}
+
+.selectors > button[name="goToRegister"]:disabled {
+  cursor: default;
+  opacity: .24;
+}
+
+/*Register Button*/
+.selectors > button[name="goToRegister"]{
+  align-items: center;
+  appearance: none;
+  background-clip: padding-box;
+  background-color: initial;
+  background-image: none;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: Eina01,sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 24px;
+  margin: 0;
+  min-height: 64px;
+  outline: none;
+  overflow: visible;
+  padding: 19px 26px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: auto;
+  word-break: keep-all;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .selectors > button[name="goToRegister"]{
+    padding: 19px 32px;
+  }
+}
+
+.selectors > button[name="goToRegister"]:before,
+.selectors > button[name="goToRegister"]:after {
+  border-radius: 5px;
+}
+
+.selectors > button[name="goToRegister"]:before {
+  background-image: linear-gradient(92.83deg, #CAE9FF 0, #62B6CB 100%);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -2;
+}
+
+.selectors > button[name="goToRegister"]:after {
+  background-color: initial;
+  background-image: linear-gradient(#1B4956 0, #0c0d0d 100%);
+  bottom: 4px;
+  content: "";
+  display: block;
+  left: 4px;
+  overflow: hidden;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  transition: all 100ms ease-out;
+  z-index: -1;
+}
+
+.selectors > button[name="goToRegister"]:hover:not(:disabled):before {
+  background: linear-gradient(92.83deg, #62B6CB 0%, #CAE9FF 100%);
+}
+
+.selectors > button[name="goToRegister"]:hover:not(:disabled):after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition-timing-function: ease-in;
+  opacity: 0;
+}
+
+.selectors > button[name="goToRegister"]:active:not(:disabled) {
+  color: #ccc;
+}
+
+.selectors > button[name="goToRegister"]:active:not(:disabled):before {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #1B4956 0, #62B6CB 100%);
+}
+
+.selectors > button[name="goToRegister"]:active:not(:disabled):after {
+  background-image: linear-gradient(#1B4956 0, #0c0d0d 100%);
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  top: 4px;
+}
+
+.selectors > button[name="goToRegister"]:disabled {
+  cursor: default;
+  opacity: .24;
+}
+
+/*Forgot Button*/
+.selectors > button[name="goToForgot"]{
+  align-items: center;
+  appearance: none;
+  background-clip: padding-box;
+  background-color: initial;
+  background-image: none;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: Eina01,sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 24px;
+  margin: 0;
+  min-height: 64px;
+  outline: none;
+  overflow: visible;
+  padding: 19px 26px;
+  pointer-events: auto;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: 125px;
+  word-break: keep-all;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .selectors > button[name="goToForgot"]{
+    padding: 19px 32px;
+  }
+}
+
+.selectors > button[name="goToForgot"]:before,
+.selectors > button[name="goToForgot"]:after {
+  border-radius: 5px;
+}
+
+.selectors > button[name="goToForgot"]:before {
+  background-image: linear-gradient(92.83deg, #CAE9FF 0, #62B6CB 100%);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -2;
+}
+
+.selectors > button[name="goToForgot"]:after {
+  background-color: initial;
+  background-image: linear-gradient(#1B4956 0, #0c0d0d 100%);
+  bottom: 4px;
+  content: "";
+  display: block;
+  left: 4px;
+  overflow: hidden;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  transition: all 100ms ease-out;
+  z-index: -1;
+}
+
+.selectors > button[name="goToForgot"]:hover:not(:disabled):before {
+  background: linear-gradient(92.83deg, #62B6CB 0%, #CAE9FF 100%);
+}
+
+.selectors > button[name="goToForgot"]:hover:not(:disabled):after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition-timing-function: ease-in;
+  opacity: 0;
+}
+
+.selectors > button[name="goToForgot"]:active:not(:disabled) {
+  color: #ccc;
+}
+
+.selectors > button[name="goToForgot"]:active:not(:disabled):before {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #1B4956 0, #62B6CB 100%);
+}
+
+.selectors > button[name="goToForgot"]:active:not(:disabled):after {
+  background-image: linear-gradient(#1B4956 0, #0c0d0d 100%);
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  top: 4px;
+}
+
+.selectors > button[name="goToForgot"]:disabled {
+  cursor: default;
+  opacity: .24;
+}
+
+button[name="loginButton"]{
+  padding-left: 10px;
+}

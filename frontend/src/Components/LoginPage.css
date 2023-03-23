@@ -8,8 +8,8 @@
     display: block;
     content: ' ';
     opacity: 0.4;
-    background-image: url("https://wallpaperaccess.com/full/1836085.jpg");
-    background-color: #808080;
-    background-position: 50% 0;
+   /* background-image: url("https://wallpaperaccess.com/full/1836085.jpg");*/
+    background-color: #CAE9FF;
+   /* background-position: 50% 0;*/
     background-size: cover;
 }
