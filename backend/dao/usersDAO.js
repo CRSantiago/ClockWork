@@ -13,6 +13,11 @@ export default class UsersDAO{
 
         // Find the user in the database
         const jsonval = new Promise((resolve, reject)=>{
+            if (uname == "" || pass == ""){
+              error = "field cannot be empty";
+              console.log(error);
+              resolve({username_t, password_t, token_t, error});
+            }
             User.find({username: uname}, function(err,data){
             if(err){
               console.log("ERROR");
@@ -64,6 +69,11 @@ export default class UsersDAO{
         // if we didn't have this, the function wouldn't wait for User.find to finish and it would return the default vals for the json body
         //https://blog.logrocket.com/guide-promises-node-js/
         const jsonval = new Promise((resolve, reject)=>{
+            if (uname == "" || pass == "" || uemail == ""){
+              error = "field cannot be empty";
+              console.log(error);
+              resolve({username_t, password_t, email_t, error});
+            }
             User.find({username: uname}, function(err,data){ // check username
                 if(err){
                   console.log(err);
