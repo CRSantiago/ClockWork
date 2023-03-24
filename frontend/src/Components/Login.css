@@ -1,0 +1,52 @@
+/* Css for our login display */
+.display{
+  display: flex;
+  flex-direction: row;
+  padding-left: 25%;
+  padding-top: 10%;
+}
+
+.loginDisplay{
+  display: flex;
+  flex-direction: column;
+  object-position: center;
+  position: relative;
+  background-color: #1B4965;
+  border-radius: 5px;
+}
+
+.loginImage{
+  display: flex;
+  position: relative;
+  object-position: left;
+}
+
+.loginf{
+  display:flex;
+  padding: 25px 25px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.loginf > input{
+  padding: 20px 20px;
+  box-sizing: border-box;
+}
+
+.loginFormText{
+  display: flex;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.loginClose{
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}

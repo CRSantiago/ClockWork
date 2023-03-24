@@ -1,0 +1,72 @@
+/* Css for our Register display */
+.registerDisplay{
+  display: flex;
+  flex-direction: column;
+  padding-top: 0px;
+  background-color: #1B4965;
+  border-radius: 5px;
+  position: relative;
+}
+
+.registerf{
+  display:flex;
+  padding: 25px 25px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.registerf > input{
+  padding: 20px 20px;
+  box-sizing: border-box;
+}
+
+.registerFormText{
+  display: flex;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.registerClose{
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/*Styling our successful registration form*/
+.registrationSuccess{
+  display: flex;
+  flex-direction: column;
+  padding-top: 0px;
+  object-position: center;
+  position: relative;
+  background-color: #1B4965;
+  border-radius: 5px;
+}
+
+.thankYou{
+  display: flex;
+  flex-direction: column;
+  font-size: xx-large;
+  text-align: center;
+  margin-top: 125px;
+  padding: 25px 25px;
+  flex-wrap: wrap;
+  height:100%;
+}
+
+.successHidden{
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
