@@ -1,17 +1,23 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
+import jwt from "jsonwebtoken";
 //let users;
 
 export default class UsersDAO{
-    static async usersLogin(uname, pass) {
+    static async usersLogin(uname, pass, token) {
         let username_t = ""; //   default values to indicate that user has not been registered correctly
         let password_t = "";
-        let email_t = "";
+        let token_t = "";
         let error = "";
         // TODO: add support for logging in with email
 
         // Find the user in the database
         const jsonval = new Promise((resolve, reject)=>{
+            if (uname == "" || pass == ""){
+              error = "field cannot be empty";
+              console.log(error);
+              resolve({username_t, password_t, token_t, error});
+            }
             User.find({username: uname}, function(err,data){
             if(err){
               console.log("ERROR");
@@ -23,7 +29,7 @@ export default class UsersDAO{
             if(data.length == 0) {
               error = "No record found";
               console.log(error);
-              resolve({username_t, password_t, email_t, error});
+              resolve({username_t, password_t, token_t, error});
               return
               }
             bcrypt.compare(pass, data[0].password, (err, match) => {
@@ -37,12 +43,16 @@ export default class UsersDAO{
               if (match){
                 console.log("login successful");
                 username_t = uname;
-                resolve({username_t, password_t, email_t, error});
+                token_t = jwt.sign({ username_t }, 
+                  process.env.JWT_SECRET_KEY, {
+                      expiresIn: 86400
+                  });
+                resolve({username_t, password_t, token_t, error});
               }
               else{
                 error = "wrong password!";
                 console.log(error);
-                resolve({username_t, password_t, email_t, error});
+                resolve({username_t, password_t, token_t, error});
               }
             });
           });
@@ -59,6 +69,11 @@ export default class UsersDAO{
         // if we didn't have this, the function wouldn't wait for User.find to finish and it would return the default vals for the json body
         //https://blog.logrocket.com/guide-promises-node-js/
         const jsonval = new Promise((resolve, reject)=>{
+            if (uname == "" || pass == "" || uemail == ""){
+              error = "field cannot be empty";
+              console.log(error);
+              resolve({username_t, password_t, email_t, error});
+            }
             User.find({username: uname}, function(err,data){ // check username
                 if(err){
                   console.log(err);
@@ -74,12 +89,9 @@ export default class UsersDAO{
                                 console.log("can make user");
                                 //update database...
                                 username_t = uname;
-                                //  Probably shouldnt return password in json, even if its hashed
-                                //password_t = hash;
                                 email_t = uemail;
                                 const newUser = new User({
                                     username: username_t ,
-                                    //password: password_t,
                                     password: hash,
                                     email: email_t
                                 })
