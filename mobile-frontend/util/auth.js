@@ -2,18 +2,29 @@ import axios from 'axios'
 
 import { buildPath } from './buildPath'
 
-export async function createUser(username, email, password) {
-  const newUser = {
-    username: username,
-    email: email,
-    password: password,
+async function authenticate(mode, username, email, password) {
+  const url = buildPath(`api/v1/clockwork/${mode}`)
+
+  let response = ''
+  if (mode === 'login') {
+    response = await axios.post(url, { username: username, password: password })
+  } else {
+    response = await axios.post(url, {
+      username: username,
+      email: email,
+      password: password,
+    })
   }
-  try {
-    const response = await axios.post(
-      buildPath('api/v1/clockwork/register'),
-      newUser
-    )
-  } catch (error) {
-    console.log(error)
-  }
+  //   if (response !== '') {
+  //     console.log(response.data)
+  //   }
+  return response
+}
+
+export function createUser(username, email, password) {
+  return authenticate('register', username, email, password) //returns response to component that calls function
+}
+
+export function login(username, password) {
+  return authenticate('login', username, '', password) //returns response to component that calls function
 }

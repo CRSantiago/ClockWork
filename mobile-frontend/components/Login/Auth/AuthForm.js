@@ -40,6 +40,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
   function submitHandler() {
     onSubmit({
+      isLogin: isLogin,
       username: userName,
       email: enteredEmail,
       confirmEmail: enteredConfirmEmail,
@@ -51,20 +52,20 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   return (
     <View style={styles.form}>
       <View>
+        <Input
+          label="Username"
+          onUpdateValue={updateInputValueHandler.bind(this, 'userName')}
+          value={userName}
+        />
         {!isLogin && (
           <Input
-            label="Username"
-            onUpdateValue={updateInputValueHandler.bind(this, 'userName')}
-            value={userName}
+            label="Email Address"
+            onUpdateValue={updateInputValueHandler.bind(this, 'email')}
+            value={enteredEmail}
+            keyboardType="email-address"
+            isInvalid={emailIsInvalid}
           />
         )}
-        <Input
-          label="Email Address"
-          onUpdateValue={updateInputValueHandler.bind(this, 'email')}
-          value={enteredEmail}
-          keyboardType="email-address"
-          isInvalid={emailIsInvalid}
-        />
         {!isLogin && (
           <Input
             label="Confirm Email Address"
