@@ -1,10 +1,15 @@
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 
 import Button from '../ui/Button'
 import Input from './Input'
 
-function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
+function AuthForm({
+  isLogin,
+  onSubmit,
+  credentialsInvalid,
+  signUpSuccessMessage,
+}) {
   const [userName, setUserName] = useState('')
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('')
@@ -51,6 +56,9 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
   return (
     <View style={styles.form}>
+      {signUpSuccessMessage && (
+        <Text style={styles.signUpText}>{signUpSuccessMessage}</Text>
+      )}
       <View>
         <Input
           label="Username"
@@ -109,5 +117,9 @@ export default AuthForm
 const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
+  },
+  signUpText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 })
