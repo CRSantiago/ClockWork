@@ -6,7 +6,7 @@ import FlatButton from '../ui/FlatButton'
 import AuthForm from './AuthForm'
 import { Colors } from '../../../constants/styles'
 
-function AuthContent({ isLogin, onAuthenticate }) {
+function AuthContent({ isLogin, onAuthenticate, signUpSuccessMessage }) {
   const navigation = useNavigation()
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
@@ -26,32 +26,37 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   function submitHandler(credentials) {
-    let { username, email, confirmEmail, password, confirmPassword } =
+    let { isLogin, username, email, confirmEmail, password, confirmPassword } =
       credentials
 
-    email = email.trim()
-    password = password.trim()
+    // uses isLogin is passed from loginscreen component. This condition allows use to use login function in utils/auth.js
+    if (isLogin) {
+      onAuthenticate({ username, password })
+    } else {
+      email = email.trim()
+      password = password.trim()
 
-    const emailIsValid = email.includes('@')
-    const passwordIsValid = password.length > 6
-    const emailsAreEqual = email === confirmEmail
-    const passwordsAreEqual = password === confirmPassword
+      const emailIsValid = email.includes('@')
+      const passwordIsValid = password.length > 6
+      const emailsAreEqual = email === confirmEmail
+      const passwordsAreEqual = password === confirmPassword
 
-    if (
-      !emailIsValid ||
-      !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
-    ) {
-      Alert.alert('Invalid input', 'Please check your entered credentials.')
-      setCredentialsInvalid({
-        email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
-        password: !passwordIsValid,
-        confirmPassword: !passwordIsValid || !passwordsAreEqual,
-      })
-      return
+      if (
+        !emailIsValid ||
+        !passwordIsValid ||
+        (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
+      ) {
+        Alert.alert('Invalid input', 'Please check your entered credentials.')
+        setCredentialsInvalid({
+          email: !emailIsValid,
+          confirmEmail: !emailIsValid || !emailsAreEqual,
+          password: !passwordIsValid,
+          confirmPassword: !passwordIsValid || !passwordsAreEqual,
+        })
+        return
+      }
+      onAuthenticate({ username, email, password })
     }
-    onAuthenticate({ username, email, password })
   }
 
   return (
@@ -60,6 +65,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
         isLogin={isLogin}
         onSubmit={submitHandler}
         credentialsInvalid={credentialsInvalid}
+        signUpSuccessMessage={signUpSuccessMessage}
       />
       <View style={styles.buttons}>
         <FlatButton onPress={switchAuthModeHandler}>

@@ -1,10 +1,15 @@
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 
 import Button from '../ui/Button'
 import Input from './Input'
 
-function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
+function AuthForm({
+  isLogin,
+  onSubmit,
+  credentialsInvalid,
+  signUpSuccessMessage,
+}) {
   const [userName, setUserName] = useState('')
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('')
@@ -39,7 +44,9 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   }
 
   function submitHandler() {
+    // prop from authcontent
     onSubmit({
+      isLogin: isLogin,
       username: userName,
       email: enteredEmail,
       confirmEmail: enteredConfirmEmail,
@@ -50,21 +57,24 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
   return (
     <View style={styles.form}>
+      {signUpSuccessMessage && (
+        <Text style={styles.signUpText}>{signUpSuccessMessage}</Text>
+      )}
       <View>
+        <Input
+          label="Username"
+          onUpdateValue={updateInputValueHandler.bind(this, 'userName')}
+          value={userName}
+        />
         {!isLogin && (
           <Input
-            label="Username"
-            onUpdateValue={updateInputValueHandler.bind(this, 'userName')}
-            value={userName}
+            label="Email Address"
+            onUpdateValue={updateInputValueHandler.bind(this, 'email')}
+            value={enteredEmail}
+            keyboardType="email-address"
+            isInvalid={emailIsInvalid}
           />
         )}
-        <Input
-          label="Email Address"
-          onUpdateValue={updateInputValueHandler.bind(this, 'email')}
-          value={enteredEmail}
-          keyboardType="email-address"
-          isInvalid={emailIsInvalid}
-        />
         {!isLogin && (
           <Input
             label="Confirm Email Address"
@@ -108,5 +118,9 @@ export default AuthForm
 const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
+  },
+  signUpText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 })
