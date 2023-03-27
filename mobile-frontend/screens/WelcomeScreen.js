@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 
+import CalendarContent from '../components/Dashboard/CalendarContent.js'
+
 function WelcomeScreen() {
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Welcome!</Text>
       <Text>You authenticated successfully!</Text>
+      <CalendarContent />
     </View>
   )
 }
