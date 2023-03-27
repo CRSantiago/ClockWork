@@ -44,6 +44,7 @@ function AuthForm({
   }
 
   function submitHandler() {
+    // prop from authcontent
     onSubmit({
       isLogin: isLogin,
       username: userName,
