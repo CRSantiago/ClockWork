@@ -26,10 +26,10 @@ export default class TasksController{
         const tasks = await TasksDAO.getTask(id);
 
         if (tasks) {
-        res.status(200).json(tasks);
+          res.status(200).json(tasks);
         } 
         else {
-        res.status(400).json({error: 'Unable to get tasks'});
+          res.status(400).json({error: 'Unable to get task'});
         }
   }
     

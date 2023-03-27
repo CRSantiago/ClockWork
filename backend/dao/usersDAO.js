@@ -124,4 +124,14 @@ export default class UsersDAO{
         })
         return jsonval;
     }
+    static async getCalendar(id) {
+        try {
+            const user = await User.findOne({_id: id});
+            console.log(user.calendar);
+            return user.calendar;
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        }
 }

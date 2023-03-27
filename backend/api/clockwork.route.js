@@ -22,6 +22,10 @@ router.get("/getTask/:id", function(req, res)
 {
     TaskCtrl.apiGetTask(req, res);
 });
+router.get("/getCalendar/:id", function(req, res)
+{
+    UsersCtrl.apiGetCalendar(req, res);
+});
 
 
 
