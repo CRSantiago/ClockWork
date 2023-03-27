@@ -18,9 +18,17 @@ router.post("/deleteTask", function(req, res)
 {
     TaskCtrl.apiCreateTask(req, res);
 });
-router.get("/tasks", function(req, res)
+router.get("/tasks/:id", function(req, res)
 {
     TaskCtrl.getTasks(req, res);
+});
+router.get("/verify/:uniqueString", function(req,res)
+{
+    UsersCtrl.apiVerify(req, res);
+});
+router.get("/calendar/:userId", function(req, res)
+{
+    CalendarCtrl.getCalendar(req, res);
 });
 
 
