@@ -1,0 +1,63 @@
+/*styling for the calendar view*/
+.calendarView{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 80vh;
+    margin-left: -15em;
+}
+
+.calendar{
+    width: 600px;
+    height: 600px;
+    border: 1px solid black;
+    position: relative;
+}
+
+.calendar > p{
+    width: 600px;
+    height: 150px;
+    border: 1px solid black;
+    position: absolute;
+    bottom: -180px;
+}
+
+.emptySpace{
+    width: 50px;
+    height: 600px;
+}
+
+.tasks{
+    display: block;
+    width: 500px;
+    height: 600px;
+    border: 1px solid black;
+    position: relative;
+}
+
+.tasks > p{
+    width: 500px;
+    height: 150px;
+    position: relative;
+    border: 1px solid black;
+    position: absolute;
+    bottom: -180px;
+}
+
+.hideMain{
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*Mofidying the react-big-calendar itself*/
+.rbc-calendar {
+    font-size: 10px;
+  }
