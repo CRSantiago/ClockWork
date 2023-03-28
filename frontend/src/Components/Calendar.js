@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment'
 import axios from "axios"
 import {buildPath} from '../utils/buildPath'
+import './Calendar.css';
 
 //defining our calendar locale
 const locales = {

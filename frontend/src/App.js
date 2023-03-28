@@ -2,6 +2,7 @@ import React from "react";
 import './App.css'
 import './Components/Login.css'
 import LoginPage from "./Pages/LoginPage";
+import CalendarPage from "./Pages/CalendarPage";
 
 function App()
 {
@@ -10,7 +11,11 @@ function App()
     // <Auth isLogin/>
     // Route herf="Sign"
     // <Auth />
-    <LoginPage />
+
+    /*Swap commenting out login page and calendar page while editing until routing is implemted*/
+
+    //<LoginPage />
+    <CalendarPage />
   );
 }
 
