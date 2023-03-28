@@ -1,5 +1,3 @@
-import React from "react";
-
 const app_name = 'clockwork1'
 export function buildPath(route)
 {

@@ -6,7 +6,11 @@ import LoginPage from "./Pages/LoginPage";
 function App()
 {
   return(
-    <LoginPage/>
+    // Route herf="Login"
+    // <Auth isLogin/>
+    // Route herf="Sign"
+    // <Auth />
+    <LoginPage />
   );
 }
 
