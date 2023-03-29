@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-//let users;
+
 
 export default class UsersDAO{
     static async usersLogin(uname, pass, token) {
@@ -124,14 +124,19 @@ export default class UsersDAO{
         })
         return jsonval;
     }
-    static async getCalendar(id) {
-        try {
+    static async getCalendar(id,month,token) {
+      let jwtSecretKey = process.env.JWT_SECRET_KEY;
+      let jwttoken = token;
+      try {
+        const verified = jwt.verify(jwttoken, jwtSecretKey);
+        if (verified){
             const user = await User.findOne({_id: id});
-            console.log(user.calendar);
-            return user.calendar;
-          } catch (error) {
-            console.error(error);
-            return null;
-          }
+            console.log(user.calendar[month]);
+            return user.calendar[month];
+            }
+      }catch (error) {
+        console.error(error);
+        return error;
         }
+  }
 }
