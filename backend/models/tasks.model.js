@@ -5,6 +5,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 console.log("task schema init");
 
+// Add list of calander id's in schema
+// This way, tasks can be searched easily when deleting or updating a task
+
 const taskSchema = new Schema({
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -14,7 +17,11 @@ const taskSchema = new Schema({
 		type: ObjectId
 	},
 
-	date: {
+	datestart: {
+		type: Date,
+		default: Date.now()
+	},
+	dateend: {
 		type: Date,
 		default: Date.now()
 	},
