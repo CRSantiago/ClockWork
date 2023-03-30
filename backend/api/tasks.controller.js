@@ -1,4 +1,5 @@
 import TasksDAO from "../dao/tasksDAO.js";
+import dotenv from "dotenv";
 
 
 export default class TasksController{
@@ -6,33 +7,37 @@ export default class TasksController{
         try {
           const {id} = req.params;
           const taskData = req.body;
-          const savedTask = await TasksDAO.createTask(taskData);
+          console.log( "REQ HEADER: ");
+          console.log(req.header("token"));
+          const intoken = req.header("token");
+          const savedTask = await TasksDAO.createTask(id, taskData, intoken);
           console.log(savedTask);
           res.status(200).json(savedTask);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Internal server error" });
+            res.status(500).json(error);
         }
       }
 
-    static async getTasks(req, res, next) {
+    static async apiGetTask(req, res, next) {
 
         const {id} = req.params;
-        const tasks = await TasksDAO.getTasks(id);
+        console.log(id);
+        const tasks = await TasksDAO.getTask(id);
 
         if (tasks) {
-        res.status(200).json(tasks);
+          res.status(200).json(tasks);
         } 
         else {
-        res.status(400).json({error: 'Unable to get tasks'});
+          res.status(400).json({error: 'Unable to get task'});
         }
   }
     
-    // static async updateTask(req, res, next) {
+    // static async apiUpdateTask(req, res, next) {
       
     // }
 
-    // static async deleteTask(req, res, next) {
+    // static async apiDeleteTask(req, res, next) {
       
     // }
 }
