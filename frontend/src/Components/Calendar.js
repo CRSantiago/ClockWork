@@ -12,6 +12,7 @@ import moment from 'moment'
 import axios from "axios"
 import {buildPath} from '../utils/buildPath'
 import './Calendar.css';
+import LogOut from "./LogOut";
 
 //defining our calendar locale
 const locales = {
@@ -110,6 +111,7 @@ function Main()
 
     return(
         <div className="calendarView">
+            <LogOut />
             <div className="calendar">
                 
                 <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end"  />
