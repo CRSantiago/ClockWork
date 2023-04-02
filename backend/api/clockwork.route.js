@@ -18,18 +18,25 @@ router.post("/deleteTask", function(req, res)
 {
     TaskCtrl.apiCreateTask(req, res);
 });
-router.get("/tasks/:id", function(req, res)
+router.get("/getTask/:id", function(req, res)
 {
-    TaskCtrl.getTasks(req, res);
+    TaskCtrl.apiGetTask(req, res);
+});
+router.get("/getCalendar/:id", function(req, res)
+{
+    UsersCtrl.apiGetCalendar(req, res);
 });
 router.get("/verify/:uniqueString", function(req,res)
 {
     UsersCtrl.apiVerify(req, res);
 });
-router.get("/calendar/:userId", function(req, res)
-{
-    CalendarCtrl.getCalendar(req, res);
+router.patch("/updateTask/:id/:taskId", function (req, res) {
+    TaskCtrl.apiUpdateTask(req, res);
 });
+router.delete("/deleteTask/:id/:taskId", function (req, res) {
+    TaskCtrl.apiDeleteTask(req, res);
+});
+
 
 
 
