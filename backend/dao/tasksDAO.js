@@ -3,6 +3,7 @@ import User from "../models/user.model.js";
 import dayjs from 'dayjs';
 import { ObjectId } from "mongodb";
 import dotenv from "dotenv";
+import { randomUUID } from "crypto";
 import jwt from "jsonwebtoken";
 
 export default class TasksDAO {
@@ -23,12 +24,34 @@ export default class TasksDAO {
               //  Very annoying calander update function
               //    Field is prempting the location in the string in order to access the month array
               //    it is then adding a day object in the calendar array
-              let field = "calendar." + savedTask.datestart.getMonth();
-              const updateUser = await User.updateOne({_id: savedTask.user},{
-                $push: {[field]:{day: savedTask.datestart.getDate(), Task: savedTask._id}}
+              const isRegular = (savedTask.interval.unit == 'days' || savedTask.interval.unit == 'weeks' || savedTask.interval.unit == 'months');
+              console.log("isRegular: " + isRegular);
+              let finderId = new ObjectId();
+              console.log(finderId);
+              if (isRegular){ // POPULATE REGULAR TASKS
+                console.log("start interval population");
+                let currentDate = savedTask.datestart;
+                  while(currentDate < savedTask.dateend){
+                    console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
+
+                    let field = "calendar." + currentDate.getMonth();
+                    const updateUser = await User.updateOne({_id: savedTask.user},{
+                      $push: {[field]:{day: currentDate.getDate(), Task: savedTask._id, _id: finderId}}
+                    }
+                    );
+
+                    currentDate.setDate(currentDate.getDate() + savedTask.interval.value);
+                  }
+                console.log("done");
               }
-              );
-              console.log(updateUser);
+              else{
+                let field = "calendar." + savedTask.datestart.getMonth();
+                const updateUser = await User.updateOne({_id: savedTask.user},{
+                  $push: {[field]:{day: savedTask.datestart.getDate(), Task: savedTask._id, _id: finderId}}
+                }
+                );
+                console.log(updateUser);
+              }
               return savedTask.toJSON();
             }
             else{
