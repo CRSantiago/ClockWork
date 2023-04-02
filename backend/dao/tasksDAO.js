@@ -51,12 +51,54 @@ export default class TasksDAO {
               }
             }
 
-        // static async updateTask(id, taskId, task) {
-            
-        //     }
+        static async updateTask(id, taskId, taskData, token) 
+        {
+            let jwtSecretKey = process.env.JWT_SECRET_KEY;
+            let jwttoken = token;
+            try {
+              const verified = jwt.verify(jwttoken, jwtSecretKey);
+              if (verified) {
+                const updatedTask = await Task.updateOne({ _id: taskId, user: id }, { $set: taskData });
+                if (updatedTask.nModified === 0) {
+                  throw new Error('Unable to update the task');
+                }
+                return updatedTask;
+              }
+              else{
+                let error = "invalid token";
+                throw error;
+              }
+            }catch (error) {
+              console.error(error);
+              res.status(500).json(error);
+              }
+        }
 
-        //static async deleteTask(id, taskId) {
+        static async deleteTask(id, taskId, token) 
+        {
+          let jwtSecretKey = process.env.JWT_SECRET_KEY;
+          let jwttoken = token;
+          try 
+          {
+            const verified = jwt.verify(jwttoken, jwtSecretKey);
+            if (verified) {
+              const deletedTask = await Task.deleteOne({ _id: taskId, user: id });
+              if (deletedTask.deletedCount === 0) 
+              {
+                throw new Error('Unable to delete the task');
+              }
+              return deletedTask;
+            }
+            else{
+              let error = "invalid token";
+              throw error;
+            } 
             
-        //}
+          } catch (error) 
+          {
+            console.error(`Error deleting task: ${error}`);
+            throw error;
+          }
+        }
 
 }

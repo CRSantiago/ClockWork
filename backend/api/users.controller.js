@@ -38,4 +38,15 @@ export default class UsersController{
             res.status(400).json({error: 'Unable to get calendar'});
         }
     }
+    static async apiVerify(req, res, next){
+        const { uniqueString } = req.params;
+        const result = await UsersDAO.verifyEmail(uniqueString);
+
+        if(result.success){
+            res.redirect('/');
+        }
+        else{
+            res.json(result.message);
+        }
+    }
 }

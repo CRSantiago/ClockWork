@@ -1,6 +1,9 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+const nodemailer = import("nodemailer");
+import randString from "../methods/randString.js";
+import sendMail from "../methods/sendMail.cjs";
 //let users;
 
 export default class UsersDAO{
@@ -65,6 +68,8 @@ export default class UsersDAO{
         let password_t = "";
         let email_t = "";
         let error = "";
+
+        const uniqueStr = randString();
         // Promise here is used because User.find is async
         // if we didn't have this, the function wouldn't wait for User.find to finish and it would return the default vals for the json body
         //https://blog.logrocket.com/guide-promises-node-js/
@@ -93,7 +98,8 @@ export default class UsersDAO{
                                 const newUser = new User({
                                     username: username_t ,
                                     password: hash,
-                                    email: email_t
+                                    email: email_t,
+                                    uniqueString: uniqueStr
                                 })
                                 newUser.save((err, user) =>{
                                     if (err) {
@@ -103,6 +109,7 @@ export default class UsersDAO{
                                     else{
                                         console.log(user);
                                         resolve({username_t, password_t, email_t, error});
+                                        sendMail(email_t, uniqueStr);
                                     }   
                                 })
                               });
@@ -132,6 +139,21 @@ export default class UsersDAO{
           } catch (error) {
             console.error(error);
             return null;
+          }
+        }
+    static async verifyEmail(uniqueString)
+        {
+          //check users for this string
+          const user = await User.findOne({ uniqueString: uniqueString});
+          if(user){
+              user.isVerified = true;
+              await user.save();
+              // Return a value indicating success
+              return { success: true };
+          }
+          else{
+              // Return a value indicating failure
+              return { success: false, message: 'User not found' };
           }
         }
 }

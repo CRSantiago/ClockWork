@@ -33,11 +33,29 @@ export default class TasksController{
         }
   }
     
-    // static async apiUpdateTask(req, res, next) {
-      
-    // }
+  static async apiUpdateTask(req, res, next) 
+  {
+    try {
+      const { id, taskId } = req.params;
+      const taskData = req.body;
+      const intoken = req.header("token");
+      const updatedTask = await TasksDAO.updateTask(id, taskId, taskData, intoken);
+      res.status(200).json(updatedTask);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json(error);
+    }
+  }
 
-    // static async apiDeleteTask(req, res, next) {
-      
-    // }
+  static async apiDeleteTask(req, res, next) {
+    try {
+      const { id, taskId } = req.params;
+      const intoken = req.header("token");
+      const deletedTask = await TasksDAO.deleteTask(id, taskId, intoken);
+      res.status(200).json(deletedTask);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json(error);
+    }
+  }
 }

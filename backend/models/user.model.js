@@ -9,6 +9,13 @@ const userSchema = new Schema({
     username: String,
     password: String,
     email: String,
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    uniqueString: String,
+    passwordResetToken: String,
+    passwordResetTokenExpires: Date,
     calendar: {
         "0": [
             {day: Number, Task: ObjectId}
