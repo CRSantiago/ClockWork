@@ -38,6 +38,7 @@
   display: flex;
   font-size: xx-large;
   text-align: center;
+  color: white;
 }
 
 .loginClose{
@@ -49,4 +50,10 @@
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+.registerSuccesful{
+  color: white;
+  font-size: medium;
+  text-align: center;
 }

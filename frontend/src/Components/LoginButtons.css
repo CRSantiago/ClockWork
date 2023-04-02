@@ -1,7 +1,6 @@
 .selectors{
   display: flex;
   flex-direction: row;
-  padding-bottom: 50px;
 }
 
 button[name="selected"]{

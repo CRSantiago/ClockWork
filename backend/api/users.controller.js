@@ -29,8 +29,11 @@ export default class UsersController{
     }
     static async apiGetCalendar(req, res){
         const {id} = req.params;
-        console.log(id);
-        const calander = await UsersDAO.getCalendar(id);
+        const {month} = req.params;
+        const intoken = req.header("token");
+        console.log(req.header("token"));
+        console.log({month});
+        const calander = await UsersDAO.getCalendar(id,month,intoken);
         if (calander) {
             res.status(200).json(calander);
         } 
