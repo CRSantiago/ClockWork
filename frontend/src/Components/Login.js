@@ -6,10 +6,7 @@ import './Login.css';
 import './LoginButtons.css';
 import axios from "axios"
 import {buildPath} from '../utils/buildPath'
-/*import emailV from './emailValidation';
-import Password from './passwordValidation';*/
 import validator from "validator";
-
 
 function Login(){
     //Defining our state variables
@@ -21,9 +18,9 @@ function Login(){
     const [showDisplay, setD] = useState({loginD: true, registerD: false, forgotD: false, registerSuccess: false}); //display state
     const [selected, Sel] = useState({login: true, register: false, forgot: false}); //Selector button state
     const [isRegistered, setIsRegistered] = useState(false);
-    //const [message, setMessage] = useState("");
+    //const [authToken, setAuthToken] = useState(null)
 
-    //Login function
+    //Login function 
     const LoginFunc = (event) =>
     {
         //go to a new page, just import API here and if matches input go the the next page
@@ -42,6 +39,17 @@ function Login(){
             // else{
             //     alert("Logged in as: " + username);
             // }
+            let authToken = null
+            authToken = response.data.token
+            if(authToken !== null){
+                localStorage.setItem("token", JSON.stringify(authToken));
+                window.location.href = '/calendar'
+            }
+            else
+            {
+                window.location.href = '/'
+            }
+
         })
         .catch(error => {
             console.error(error);
