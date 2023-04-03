@@ -14,20 +14,19 @@ export default class TasksDAO {
             const verified = jwt.verify(jwttoken, jwtSecretKey);
             if (verified){
               console.log("verification successful");
+              
+              let finderId = new ObjectId();
+              let insertId = {'foreignid': finderId};
+              Object.assign(taskData, insertId); // This adds the finder/foreign id into the task document
+
               const newTask = await Task.create(taskData);
               const savedTask = await newTask.save();
-              console.log("TOKEN: "+token);
-              console.log(savedTask.datestart);
-              console.log(savedTask.datestart.getMonth()); // get month goes from 0 - 11
               // Update user
               const foundUser = await User.findOne({_id: savedTask.user});
               //  Very annoying calander update function
               //    Field is prempting the location in the string in order to access the month array
               //    it is then adding a day object in the calendar array
               const isRegular = (savedTask.interval.unit == 'days' || savedTask.interval.unit == 'weeks' || savedTask.interval.unit == 'months');
-              console.log("isRegular: " + isRegular);
-              let finderId = new ObjectId();
-              console.log(finderId);
               if (isRegular){ // POPULATE REGULAR TASKS
                 console.log("start interval population");
                 let currentDate = savedTask.datestart;
