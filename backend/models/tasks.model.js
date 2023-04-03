@@ -16,7 +16,9 @@ const taskSchema = new Schema({
 	user:{
 		type: ObjectId
 	},
-
+	foreignid:{
+		type: ObjectId
+	},
 	datestart: {
 		type: Date,
 		default: Date.now()

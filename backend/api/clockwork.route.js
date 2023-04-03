@@ -26,6 +26,17 @@ router.get("/getCalendar/:id/:month", function(req, res)
 {
     UsersCtrl.apiGetCalendar(req, res);
 });
+router.get("/verify/:uniqueString", function(req,res)
+{
+    UsersCtrl.apiVerify(req, res);
+});
+router.patch("/updateTask/:id/:taskId", function (req, res) {
+    TaskCtrl.apiUpdateTask(req, res);
+});
+router.delete("/deleteTask/:id/:taskId", function (req, res) {
+    TaskCtrl.apiDeleteTask(req, res);
+});
+
 
 
 
