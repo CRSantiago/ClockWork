@@ -18,13 +18,39 @@ export default class UsersController{
         let u = req.body.username; // pass through either username OR email for login
         let p = req.body.password;
         let t = "";
-        const { username_t, password_t, token_t, error } = await UsersDAO.usersLogin(u, p, t);
+        const { _id_t, username_t, password_t, token_t, error } = await UsersDAO.usersLogin(u, p, t);
         let response = {
+            _id: _id_t,
             username: username_t,
             password: password_t,
             token: token_t,
             error: error
         };
         res.json(response);
+    }
+    static async apiGetCalendar(req, res){
+        const {id} = req.params;
+        const {month} = req.params;
+        const intoken = req.header("token");
+        console.log(req.header("token"));
+        console.log({month});
+        const calander = await UsersDAO.getCalendar(id,month,intoken);
+        if (calander) {
+            res.status(200).json(calander);
+        } 
+        else {
+            res.status(400).json({error: 'Unable to get calendar'});
+        }
+    }
+    static async apiVerify(req, res, next){
+        const { uniqueString } = req.params;
+        const result = await UsersDAO.verifyEmail(uniqueString);
+
+        if(result.success){
+            res.redirect('/');
+        }
+        else{
+            res.json(result.message);
+        }
     }
 }

@@ -6,15 +6,22 @@ import './Login.css';
 import './LoginButtons.css';
 import axios from "axios"
 import {buildPath} from '../utils/buildPath'
+/*import emailV from './emailValidation';
+import Password from './passwordValidation';*/
+import validator from "validator";
+
 
 function Login(){
     //Defining our state variables
     const [email, setEmail] = useState(""); //Email default is empty
-    const [password, setPassword] = useState(""); //Password default is empty 
+    const [password, setPassword] = useState(""); //Password default is empty
+    const [confirmEmail, setEmailConfirm] = useState(""); //Email default is empty
+    const [confirmPassword, setPasswordConfirm] = useState(""); //Password default is empty 
     const [username, setUserName] = useState(""); //Usernae default is empty
-    //const[user, setUser] = useState({username: "", password: "", email: ""}); //User state, default is empty object
     const [showDisplay, setD] = useState({loginD: true, registerD: false, forgotD: false, registerSuccess: false}); //display state
     const [selected, Sel] = useState({login: true, register: false, forgot: false}); //Selector button state
+    const [isRegistered, setIsRegistered] = useState(false);
+    //const [message, setMessage] = useState("");
 
     //Login function
     const LoginFunc = (event) =>
@@ -32,49 +39,42 @@ function Login(){
             if(response.data.error !== ""){
                 alert(response.data.error);
             }
-            else{
-                alert("Logged in as: " + username);
-            }
+            // else{
+            //     alert("Logged in as: " + username);
+            // }
         })
         .catch(error => {
             console.error(error);
         });
     }
 
-    //Register validation function
-    /*function submitHandler(credentials) {
-        let { email, confirmEmail, password, confirmPassword } = credentials
-    
-        email = email.trim()
-        password = password.trim()
-    
-        const emailIsValid = email.includes('@')
+    //Register function
+    const RegisterFunc = (event) =>
+    {
+        console.log("in RegisterFunc()")
+        //Returns to login and adds user to database using api
+        event.preventDefault();  
+        let emailIsValid = false  
+        if (validator.isEmail(email)) {
+           //setMessage('Valid Email')
+           emailIsValid = true
+        } 
+       
         const passwordIsValid = password.length > 6
         const emailsAreEqual = email === confirmEmail
         const passwordsAreEqual = password === confirmPassword
     
-        if (
-          !emailIsValid ||
-          !passwordIsValid ||
-          (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
-        ) {
-          Alert.alert('Invalid input', 'Please check your entered credentials.')
-          setCredentialsInvalid({
-            email: !emailIsValid,
-            confirmEmail: !emailIsValid || !emailsAreEqual,
-            password: !passwordIsValid,
-            confirmPassword: !passwordIsValid || !passwordsAreEqual,
-          })
-          return
+        if (!emailIsValid || !passwordIsValid || ( (!emailsAreEqual || !passwordsAreEqual)))
+        {
+            alert('Invalid input - Please check your entered credentials.')
+        //   setCredentialsInvalid({
+        //     email: !emailIsValid,
+        //     confirmEmail: !emailIsValid || !emailsAreEqual,
+        //     password: !passwordIsValid,
+        //     confirmPassword: !passwordIsValid || !passwordsAreEqual,
+        //   })
+            return
         }
-       // else then all is valid  then authenticate
-      }*/
-
-    //Register function
-    const RegisterFunc = (event) =>
-    {
-        //Returns to login and adds user to database using api
-        event.preventDefault();
         const userRegister = {
             email: email,
             username: username,
@@ -84,9 +84,14 @@ function Login(){
         .then(response => {
             //Printing data to console for testing 
             console.log(response.data)
-            //Updating our display state
-            setD({loginD: false, registerD: false, forgotD: false, registerSuccess: true})
-            //Setting our selector back to login for user to login with new credentials 
+            if(response.data.error === ''){
+                //Updating our display state
+                setD({loginD: true, registerD: false, forgotD: false, registerSuccess: true})
+                //Setting our selector back to login for user to login with new credentials 
+                setIsRegistered(true)
+            } else {
+                alert(`${response.data.error}`)
+            }
             
         })
         .catch(error => {
@@ -137,12 +142,13 @@ function Login(){
                         Register
                     </button>
 
-                    <button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
+                    {/*<button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
                         Forgot?
-                    </button>
+                    </button>*/}
                 </div>
 
                 <div className='loginf'> 
+                {isRegistered && <h3 className='registerSuccesful'>Thank you for registering {username}</h3>}
                     <h1 className='loginFormText'>Enter login below</h1>
 
                     <input
@@ -177,20 +183,13 @@ function Login(){
                         Register
                     </button>
 
-                    <button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
+                    {/*<button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
                         Forgot?
-                    </button>
+                    </button>*/}
                 </div>
 
                 <div className='registerf'> 
                     <h1 className='registerFormText'>Register below</h1>
-
-                    <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)} 
-                        placeholder="Enter Email"
-                        type="text"
-                    />
 
                     <input
                         value={username}
@@ -200,11 +199,31 @@ function Login(){
                     />
 
                     <input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)} 
+                        placeholder="Enter Email"
+                        type="text"
+                    />
+
+                    <input
+                        value={confirmEmail}
+                        onChange={(e) => setEmailConfirm(e.target.value)} 
+                        placeholder="Confirm Email"
+                        type="text"
+                    /> 
+
+                    <input
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}  
+                        onChange={(e) => setPassword(e.target.value)} 
                         placeholder="Enter Password"
                         type="password"
                     />
+                    <input
+                        value={confirmPassword}
+                        onChange={(e) => setPasswordConfirm(e.target.value)} 
+                        placeholder="Confirm Password"
+                        type="password"
+                    /> 
 
                     <button name="selected" type="submit" onClick={RegisterFunc}>
                         Register
@@ -215,16 +234,6 @@ function Login(){
             {/*Forgot display*/}
 
             {/*Successful register display*/}
-            <div className={showDisplay.registerSuccess ? "registrationSuccess" : "successHidden"}>
-                <div className="thankYou">
-                    Thank you for Registering {username}!
-                    <p>
-                        <button name="selected" type="button" onClick={LoginFunc}>
-                            Login
-                        </button>
-                    </p>
-                </div>
-            </div>
 
         </div>
     );
