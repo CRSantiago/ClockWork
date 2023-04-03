@@ -6,7 +6,6 @@ function WelcomeScreen() {
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Welcome!</Text>
-      <Text>You authenticated successfully!</Text>
       <CalendarContent />
     </View>
   )
@@ -17,7 +16,7 @@ export default WelcomeScreen
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
     padding: 32,
   },

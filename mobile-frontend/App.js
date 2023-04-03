@@ -38,7 +38,7 @@ function AuthenticatedStack() {
       }}
     >
       <Stack.Screen
-        name="Welcome"
+        name="Dashboard"
         component={WelcomeScreen}
         options={{
           headerRight: ({ tintColor }) => (
