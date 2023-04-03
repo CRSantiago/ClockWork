@@ -8,6 +8,7 @@ import sendMail from "../methods/sendMail.cjs";
 
 export default class UsersDAO{
     static async usersLogin(uname, pass, token) {
+        let _id_t = "";
         let username_t = ""; //   default values to indicate that user has not been registered correctly
         let password_t = "";
         let token_t = "";
@@ -46,16 +47,17 @@ export default class UsersDAO{
               if (match){
                 console.log("login successful");
                 username_t = uname;
+                _id_t = data[0]._id;
                 token_t = jwt.sign({ username_t }, 
                   process.env.JWT_SECRET_KEY, {
                       expiresIn: 86400
                   });
-                resolve({username_t, password_t, token_t, error});
+                resolve({_id_t, username_t, password_t, token_t, error});
               }
               else{
                 error = "wrong password!";
                 console.log(error);
-                resolve({username_t, password_t, token_t, error});
+                resolve({_id_t, username_t, password_t, token_t, error});
               }
             });
           });
