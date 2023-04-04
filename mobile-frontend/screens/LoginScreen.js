@@ -23,7 +23,8 @@ function LoginScreen() {
     setIsAuthenticating(true)
     try {
       const response = await login(username, password)
-      authCtx.authenticate(response.data.token)
+      //console.log(response.data._id)
+      authCtx.authenticate(response.data.token, response.data._id)
       if (response.data.error !== '') {
         Alert.alert(
           'Authentication failed!',
