@@ -63,10 +63,15 @@ export default class TasksDAO {
           }
         }
 
-        static async getTask(id) {
+        static async getTask(id, token) {
+          let jwtSecretKey = process.env.JWT_SECRET_KEY;
+          let jwttoken = token;
             try {
-                const tasks = await Task.find({_id: id});
-                return tasks;
+                const verified = jwt.verify(jwttoken, jwtSecretKey);
+                if (verified){
+                  const tasks = await Task.find({_id: id});
+                  return tasks;
+                }
               } catch (error) {
                 console.error(error);
                 return null;
