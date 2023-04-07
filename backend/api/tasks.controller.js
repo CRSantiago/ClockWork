@@ -50,7 +50,8 @@ export default class TasksController{
 
   static async apiDeleteTask(req, res, next) {
     try {
-      const { id, taskId } = req.params;
+      const { id, taskId } = req.body;
+      console.log("balls: "+id);
       const intoken = req.header("token");
       const deletedTask = await TasksDAO.deleteTask(id, taskId, intoken);
       res.status(200).json(deletedTask);

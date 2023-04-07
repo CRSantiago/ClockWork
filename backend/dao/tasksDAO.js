@@ -114,14 +114,25 @@ export default class TasksDAO {
         {
           let jwtSecretKey = process.env.JWT_SECRET_KEY;
           let jwttoken = token;
+          console.log(taskId);
+          console.log(id);
           try 
           {
             const verified = jwt.verify(jwttoken, jwtSecretKey);
             if (verified) {
+              const foundTask = await Task.find({ _id: taskId, user: id });
               const deletedTask = await Task.deleteOne({ _id: taskId, user: id });
-              if (deletedTask.deletedCount === 0) 
+              if (deletedTask.deletedCount == 0) 
               {
                 throw new Error('Unable to delete the task');
+              }
+              let currentDate = new Date(foundTask[0].datestart);
+              while (currentDate < foundTask[0].dateend){
+                let field = "calendar." + currentDate.getMonth();
+                const deletedTaskCalendar = await User.updateMany({ _id: id}, {$pull: {[field]: {_id: {$in: foundTask[0].foreignid}}}});
+                console.log("deleting...");
+                console.log(deletedTaskCalendar);
+                currentDate.setMonth(currentDate.getMonth() + 1);
               }
 
               return deletedTask;
