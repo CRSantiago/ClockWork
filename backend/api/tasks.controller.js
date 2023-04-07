@@ -23,8 +23,9 @@ export default class TasksController{
 
         const {id} = req.params;
         console.log(id);
-        const tasks = await TasksDAO.getTask(id);
-
+        const intoken = req.header("token");
+        const tasks = await TasksDAO.getTask(id, intoken);
+        console.log(tasks);
         if (tasks) {
           res.status(200).json(tasks);
         } 
