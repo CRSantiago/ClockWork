@@ -29,7 +29,11 @@ export default class TasksDAO {
               const isRegular = (savedTask.interval.unit == 'days' || savedTask.interval.unit == 'weeks' || savedTask.interval.unit == 'months');
               if (isRegular){ // POPULATE REGULAR TASKS
                 console.log("start interval population");
-                let currentDate = savedTask.datestart;
+                let val = savedTask.interval.value;
+                let currentDate = new Date(savedTask.datestart);
+                if (savedTask.interval.unit == 'weeks'){
+                  val = val*7;
+                }
                   while(currentDate < savedTask.dateend){
                     console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
 
@@ -39,8 +43,13 @@ export default class TasksDAO {
                     }
                     );
 
-                    currentDate.setDate(currentDate.getDate() + savedTask.interval.value);
-                  }
+                    if (savedTask.interval.unit == 'months'){
+                      currentDate.setMonth(currentDate.getMonth() + val);
+                    }
+                    else{
+                      currentDate.setDate(currentDate.getDate() + val);
+                    }
+                }
                 console.log("done");
               }
               else{
@@ -114,6 +123,7 @@ export default class TasksDAO {
               {
                 throw new Error('Unable to delete the task');
               }
+
               return deletedTask;
             }
             else{
