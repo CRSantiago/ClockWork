@@ -1,46 +1,42 @@
-import express from "express";
-import UsersCtrl from "./users.controller.js"
-import TaskCtrl from "./tasks.controller.js"
+import express from 'express'
+import UsersCtrl from './users.controller.js'
+import TaskCtrl from './tasks.controller.js'
+import path from 'path'
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/register", function(req, res){
-    UsersCtrl.apiRegister(req,res);
-});
-router.post("/login", function(req, res){
-    UsersCtrl.apiLogin(req,res);
-});
-router.post("/createTask", function(req, res)
-{
-    TaskCtrl.apiCreateTask(req, res);
-});
-router.post("/deleteTask", function(req, res)
-{
-    TaskCtrl.apiDeleteTask(req, res);
-});
-router.get("/getTask/:id", function(req, res)
-{
-    TaskCtrl.apiGetTask(req, res);
-});
-router.get("/getCalendar/:id/:month", function(req, res)
-{
-    UsersCtrl.apiGetCalendar(req, res);
-});
-router.get("/verify/:uniqueString", function(req,res)
-{
-    UsersCtrl.apiVerify(req, res);
-});
-router.patch("/updateTask/:id/:taskId", function (req, res) {
-    TaskCtrl.apiUpdateTask(req, res);
-});
-router.delete("/deleteTask/:id/:taskId", function (req, res) {
-    TaskCtrl.apiDeleteTask(req, res);
-});
-
-
-
+router.post('/register', function (req, res) {
+  UsersCtrl.apiRegister(req, res)
+})
+router.post('/login', function (req, res) {
+  UsersCtrl.apiLogin(req, res)
+})
+router.post('/createTask', function (req, res) {
+  TaskCtrl.apiCreateTask(req, res)
+})
+router.post('/deleteTask', function (req, res) {
+  TaskCtrl.apiDeleteTask(req, res)
+})
+router.get('/getTask/:id', function (req, res) {
+  TaskCtrl.apiGetTask(req, res)
+})
+router.get('/getCalendar/:id/:month', function (req, res) {
+  UsersCtrl.apiGetCalendar(req, res)
+})
+router.get('/verify/:uniqueString', function (req, res) {
+  UsersCtrl.apiVerify(req, res)
+})
+router.patch('/updateTask/:id/:taskId', function (req, res) {
+  TaskCtrl.apiUpdateTask(req, res)
+})
+router.delete('/deleteTask/:id/:taskId', function (req, res) {
+  TaskCtrl.apiDeleteTask(req, res)
+})
+router.get('*', (req, res) => {
+  const indexPath = path.join(process.cwd(), buildPath, 'index.html')
+  res.sendFile(indexPath)
+})
 
 //router.route("/").get((req,res) => res.send("hello world"));
 
-
-export default router;
+export default router
