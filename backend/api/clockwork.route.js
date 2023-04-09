@@ -32,10 +32,6 @@ router.patch('/updateTask/:id/:taskId', function (req, res) {
 router.delete('/deleteTask/:id/:taskId', function (req, res) {
   TaskCtrl.apiDeleteTask(req, res)
 })
-router.get('*', (req, res) => {
-  const indexPath = path.join(process.cwd(), buildPath, 'index.html')
-  res.sendFile(indexPath)
-})
 
 //router.route("/").get((req,res) => res.send("hello world"));
 
