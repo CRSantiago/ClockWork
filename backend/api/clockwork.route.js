@@ -1,7 +1,6 @@
 import express from "express";
 import UsersCtrl from "./users.controller.js"
 import TaskCtrl from "./tasks.controller.js"
-import dotenv from "dotenv";
 
 const router = express.Router();
 
