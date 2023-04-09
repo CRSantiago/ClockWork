@@ -15,10 +15,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(process.cwd(), buildPath)))
 
   // Serve the index.html file for all other requests
-  app.get('/', (req, res) => {
-    const indexPath = path.join(process.cwd(), buildPath, 'index.html')
-    res.sendFile(indexPath)
-  })
+  // app.get('*', (req, res) => {
+  //   const indexPath = path.join(process.cwd(), buildPath, 'index.html')
+  //   res.sendFile(indexPath)
+  // })
 }
 app.use(cors())
 app.use(express.json())
