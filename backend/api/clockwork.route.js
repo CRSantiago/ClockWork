@@ -37,8 +37,6 @@ router.delete("/deleteTask/:id/:taskId", function (req, res) {
     TaskCtrl.apiDeleteTask(req, res);
 });
 
-
 //router.route("/").get((req,res) => res.send("hello world"));
 
-
-export default router;
+export default router

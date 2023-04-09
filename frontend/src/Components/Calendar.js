@@ -1,141 +1,148 @@
-import format from "date-fns/format";
-import getDay from "date-fns/getDay";
+import format from 'date-fns/format'
+import getDay from 'date-fns/getDay'
 //import parseISO from "date-fns/parseISO";
 import { parseISO } from 'date-fns'
-import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
-import { Calendar, dateFnsLocalizer, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import startOfWeek from 'date-fns/startOfWeek'
+import React, { useState, useEffect } from 'react'
+import { Calendar, dateFnsLocalizer, momentLocalizer } from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
-import axios from "axios"
-import {buildPath} from '../utils/buildPath'
-import './Calendar.css';
+import axios from 'axios'
+import { buildPath } from '../utils/buildPath'
+import './Calendar.css'
+import LogOut from './LogOut'
 
 //defining our calendar locale
 const locales = {
-    "en-US": require("date-fns/locale/en-US"),
-};
+  'en-US': require('date-fns/locale/en-US'),
+}
 
 //
 const localizer = dateFnsLocalizer({
-    format,
-    parseISO,
-    startOfWeek,
-    getDay,
-    locales,
-});
+  format,
+  parseISO,
+  startOfWeek,
+  getDay,
+  locales,
+})
 
-//Events to add to our calendar
-const events = [
-    {
-        title: "Big Meeting",
-        allDay: true,
-        //interval: "5",
-        start: new Date(2023, 2, 25),
-        end: new Date(2023, 2, 25),
+function Main() {
+  //Defining our event variables
+  //const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  const [allEvents, setAllEvents] = useState([])
+  const [tasks, setTask] = useState({ taskName: '', description: '' })
 
-        /*Fields from backend
-        date: start date,
-        interval: 
-        end date: 
+  //Current date variable
+  var currentDate = new Date()
+  var currentMonth = currentDate.getMonth()
 
-        */
-    },
-    {
-        title: "Vacation",
-        start: new Date(2023, 2, 27),
-        end: new Date(2023, 2, 27),
-    },
-    {
-        title: "Conference",
-        start: new Date(2023, 2, 25),
-        end: new Date(2023, 2, 25),
-    },
-];
+  //Task array
+  var taskArray = []
 
+  //User id
+  var userID = localStorage.getItem('userid')
 
-function Main()
-{
-    //Defining our event variables 
-    const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-    const [allEvents, setAllEvents] = useState(events);
-
-    //Current date variable
-    var currentDate = new Date();
-
-    //Function to add an event
-    function handleAddEvent() {
-        
-        /*for (let i=0; i<allEvents.length; i++){
-
-            const d1 = new Date (allEvents[i].start);
-            const d2 = new Date(newEvent.start);
-            const d3 = new Date(allEvents[i].end);
-            const d4 = new Date(newEvent.end);
-
-             if (
-              ( (d1  <= d2) && (d2 <= d3) ) || ( (d1  <= d4) &&
-                (d4 <= d3) )
-              )
-            {   
-                alert("CLASH"); 
-                break;
-             }
-    
-        }*/
-        
-        setAllEvents([...allEvents, newEvent]);
+  //Function to get task title from task information
+  const getTaskTitle = async (id) => {
+    let jsonbuffer
+    let parsed
+    let tasktitle
+    try {
+      const response = await axios.get(
+        buildPath('api/v1/clockwork/getTask/' + id),
+        { headers: { token: localStorage.getItem('token') } }
+      )
+      jsonbuffer = JSON.stringify(response.data[0])
+      parsed = JSON.parse(jsonbuffer)
+      tasktitle = parsed.title
+      return tasktitle
+    } catch (error) {
+      console.log(error)
     }
+  }
 
-    /*function addEvent(input, type){
-        if(type === "title"){
-            setNewEvent({title: title});
+  //Setting our calendar to the user default from the database
+  const setCalendar = (array) => {
+    //defining our variables for this function
+    let title
+    let start
+    let end
+    let bufferArray
+    let buffer
+
+    //Getting the server response using axios REMEBER TO ADDD +1 TO CURRENT MONTH, NOT ADDING AS NO TESTS IN THIS MONTH
+    axios
+      .get(
+        buildPath(
+          'api/v1/clockwork/getCalendar/' +
+            userID.toString() +
+            '/' +
+            (currentMonth + 1).toString()
+        ),
+        {
+          headers: {
+            token: localStorage.getItem('token'),
+          },
         }
-        else if(type === "start"){
-            setNewEvent({})
-        }
-    }*/
-    
-    //for testing purposes
-    function test(){
-        var date = parseISO("2023-06-03");
-        console.log(date)
-    }
-    
-    function setDate(input){
+      )
+      // .then(async response =>{
+      //   //looping through our task array for the given month
+      //   for(let i = 0; i < response.data.length; i++){
+      //     //storing the json at the current index in a buffer
+      //     bufferArray = JSON.stringify(response.data[i]);
+      //     //parsing the json
+      //     buffer = JSON.parse(bufferArray);
+      //     //setting the title to the json task
+      //     title = buffer.Task;
+      //     title = await getTaskTitle(title);
+      //     //setting the start date to the current task date
+      //     start = new Date(2023, (currentMonth), parseInt(buffer.day));
+      //     //setting the end date to the current task date
+      //     end = new Date(2023, (currentMonth), parseInt(buffer.day));
 
-    }
+      //     array.push({title: title, start: start, end: end});
+      //   }
+      //   console.log(array);
+      // })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
-    return(
-        <div className="calendarView">
-            <div className="calendar">
-                
-                <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end"  />
+  //initiating our events state
+  useEffect(() => {
+    setCalendar(taskArray)
+    //setAllEvents(taskArray)
+  }, [])
 
-                <p name="information">
-                    Information
-                </p>
-            </div>
+  return (
+    <div className="calendarView">
+      <LogOut />
+      <div className="calendar">
+        <Calendar
+          localizer={localizer}
+          events={allEvents}
+          startAccessor="start"
+          endAccessor="end"
+        />
 
-            <div className="emptySpace">
-                {/*Empty space for styling purposes*/}
-            </div>
+        <p name="information">Information</p>
+      </div>
 
-            <div className="tasks">
-                <h1>
-                    {currentDate.toDateString()}
-                </h1>
-                Tasks
+      <div className="emptySpace">{/*Empty space for styling purposes*/}</div>
 
-                <p name="notes">
-                    Notes
-                </p>
-            </div>
-
-        </div>
-    );
+      <div className="tasks">
+        <h1>{currentDate.toDateString()}</h1>
+        Tasks
+        <p name="notes">Notes</p>
+      </div>
+    </div>
+  )
 }
 
-export default Main;
+export default Main

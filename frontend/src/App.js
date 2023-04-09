@@ -1,21 +1,19 @@
 import React from "react";
-import './App.css'
-import './Components/Login.css'
+import './App.css';
+import './Components/Login.css';
 import LoginPage from "./Pages/LoginPage";
 import CalendarPage from "./Pages/CalendarPage";
+import { Route, Routes, BrowserRouter} from "react-router-dom";
 
 function App()
 {
-  return(
-    // Route herf="Login"
-    // <Auth isLogin/>
-    // Route herf="Sign"
-    // <Auth />
-
-    /*Swap commenting out login page and calendar page while editing until routing is implemted*/
-
-    //<LoginPage />
-    <CalendarPage />
+  return(   
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' index element={<LoginPage/>}/>
+        <Route path='/calendar' index element={<CalendarPage/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
