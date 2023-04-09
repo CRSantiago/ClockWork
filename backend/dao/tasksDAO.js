@@ -29,18 +29,27 @@ export default class TasksDAO {
               const isRegular = (savedTask.interval.unit == 'days' || savedTask.interval.unit == 'weeks' || savedTask.interval.unit == 'months');
               if (isRegular){ // POPULATE REGULAR TASKS
                 console.log("start interval population");
-                let currentDate = savedTask.datestart;
+                let val = savedTask.interval.value;
+                let currentDate = new Date(savedTask.datestart);
+                if (savedTask.interval.unit == 'weeks'){
+                  val = val*7;
+                }
                   while(currentDate < savedTask.dateend){
                     console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
 
                     let field = "calendar." + currentDate.getMonth();
                     const updateUser = await User.updateOne({_id: savedTask.user},{
-                      $push: {[field]:{day: currentDate.getDate(), Task: savedTask._id, _id: finderId}}
+                      $push: {[field]:{day: currentDate.getDate(), Task: savedTask._id, title: savedTask.title, description: savedTask.description, _id: finderId}}
                     }
                     );
 
-                    currentDate.setDate(currentDate.getDate() + savedTask.interval.value);
-                  }
+                    if (savedTask.interval.unit == 'months'){
+                      currentDate.setMonth(currentDate.getMonth() + val);
+                    }
+                    else{
+                      currentDate.setDate(currentDate.getDate() + val);
+                    }
+                }
                 console.log("done");
               }
               else{
@@ -63,10 +72,15 @@ export default class TasksDAO {
           }
         }
 
-        static async getTask(id) {
+        static async getTask(id, token) {
+          let jwtSecretKey = process.env.JWT_SECRET_KEY;
+          let jwttoken = token;
             try {
-                const tasks = await Task.find({_id: id});
-                return tasks;
+                const verified = jwt.verify(jwttoken, jwtSecretKey);
+                if (verified){
+                  const tasks = await Task.find({_id: id});
+                  return tasks;
+                }
               } catch (error) {
                 console.error(error);
                 return null;
@@ -100,15 +114,27 @@ export default class TasksDAO {
         {
           let jwtSecretKey = process.env.JWT_SECRET_KEY;
           let jwttoken = token;
+          console.log(taskId);
+          console.log(id);
           try 
           {
             const verified = jwt.verify(jwttoken, jwtSecretKey);
             if (verified) {
+              const foundTask = await Task.find({ _id: taskId, user: id });
               const deletedTask = await Task.deleteOne({ _id: taskId, user: id });
-              if (deletedTask.deletedCount === 0) 
+              if (deletedTask.deletedCount == 0) 
               {
                 throw new Error('Unable to delete the task');
               }
+              let currentDate = new Date(foundTask[0].datestart);
+              while (currentDate < foundTask[0].dateend){
+                let field = "calendar." + currentDate.getMonth();
+                const deletedTaskCalendar = await User.updateMany({ _id: id}, {$pull: {[field]: {_id: {$in: foundTask[0].foreignid}}}});
+                console.log("deleting...");
+                console.log(deletedTaskCalendar);
+                currentDate.setMonth(currentDate.getMonth() + 1);
+              }
+
               return deletedTask;
             }
             else{

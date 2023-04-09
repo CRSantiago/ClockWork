@@ -16,7 +16,7 @@ router.post("/createTask", function(req, res)
 });
 router.post("/deleteTask", function(req, res)
 {
-    TaskCtrl.apiCreateTask(req, res);
+    TaskCtrl.apiDeleteTask(req, res);
 });
 router.get("/getTask/:id", function(req, res)
 {
