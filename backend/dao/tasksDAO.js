@@ -39,7 +39,7 @@ export default class TasksDAO {
 
                     let field = "calendar." + currentDate.getMonth();
                     const updateUser = await User.updateOne({_id: savedTask.user},{
-                      $push: {[field]:{day: currentDate.getDate(), Task: savedTask._id, _id: finderId}}
+                      $push: {[field]:{day: currentDate.getDate(), Task: savedTask._id, title: savedTask.title, description: savedTask.description, _id: finderId}}
                     }
                     );
 
