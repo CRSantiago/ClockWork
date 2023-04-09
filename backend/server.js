@@ -11,14 +11,14 @@ if (process.env.NODE_ENV === 'production') {
   //   res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
   // })
   // Serve static files from the build directory
-  const buildPath = process.env.BUILD_PATH || 'frontend/build';
-  app.use(express.static(path.join(process.cwd(), buildPath)));
+  const buildPath = process.env.BUILD_PATH || 'frontend/build'
+  app.use(express.static(path.join(process.cwd(), buildPath)))
 
   // Serve the index.html file for all other requests
-  app.get('*', (req, res) => {
-    const indexPath = path.join(process.cwd(), buildPath, 'index.html');
-    res.sendFile(indexPath);
-  });
+  app.use('*', (req, res) => {
+    const indexPath = path.join(process.cwd(), buildPath, 'index.html')
+    res.sendFile(indexPath)
+  })
 }
 app.use(cors())
 app.use(express.json())
