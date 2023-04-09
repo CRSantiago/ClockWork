@@ -18,40 +18,40 @@ const userSchema = new Schema({
     passwordResetTokenExpires: Date,
     calendar: {
         "0": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "1": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "2": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "3": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "4": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "5": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "6": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "7": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "8": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "9": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "10": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ],
         "11": [
-            {day: Number, Task: ObjectId}
+            {day: Number, Task: ObjectId, title: String, description: String}
         ]
     }
 }, 
