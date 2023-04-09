@@ -1,6 +1,7 @@
 import express from "express";
 import UsersCtrl from "./users.controller.js"
 import TaskCtrl from "./tasks.controller.js"
+import dotenv from "dotenv";
 
 const router = express.Router();
 
@@ -36,8 +37,6 @@ router.patch("/updateTask/:id/:taskId", function (req, res) {
 router.delete("/deleteTask/:id/:taskId", function (req, res) {
     TaskCtrl.apiDeleteTask(req, res);
 });
-
-
 
 
 //router.route("/").get((req,res) => res.send("hello world"));
