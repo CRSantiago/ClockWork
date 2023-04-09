@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(process.cwd(), buildPath)))
 
   // Serve the index.html file for all other requests
-  app.use('*', (req, res) => {
+  app.get('/', (req, res) => {
     const indexPath = path.join(process.cwd(), buildPath, 'index.html')
     res.sendFile(indexPath)
   })
