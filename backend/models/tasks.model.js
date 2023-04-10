@@ -32,7 +32,7 @@ const taskSchema = new Schema({
 	interval: {
 			unit: {
 				type: String,
-				enum: ["days", "weeks", "months"],
+				enum: ["none","days", "weeks", "months"],
 			
 			  },
 			value: {
