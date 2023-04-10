@@ -13,6 +13,7 @@ import axios from 'axios'
 import { buildPath } from '../utils/buildPath'
 import './Calendar.css'
 import LogOut from './LogOut'
+import {useNavigate}  from 'react-router-dom';
 
 //defining our calendar locale
 const locales = {
@@ -29,6 +30,7 @@ const localizer = dateFnsLocalizer({
 })
 
 function Main() {
+  const navigate = useNavigate()
   //Defining our event variables
   //const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
   const [allEvents, setAllEvents] = useState([])
@@ -79,7 +81,7 @@ function Main() {
           'api/v1/clockwork/getCalendar/' +
             userID.toString() +
             '/' +
-            (currentMonth + 1).toString()
+            (currentMonth).toString()
         ),
         {
           headers: {
@@ -120,6 +122,10 @@ function Main() {
     //setAllEvents(taskArray)
   }, [])
 
+  function handleAddTask(){
+    navigate('/AddTask')
+  }
+
   return (
     <div className="calendarView">
       <LogOut />
@@ -139,6 +145,7 @@ function Main() {
       <div className="tasks">
         <h1>{currentDate.toDateString()}</h1>
         Tasks
+        <button onClick={handleAddTask}>+</button>
         <p name="notes">Notes</p>
       </div>
     </div>
