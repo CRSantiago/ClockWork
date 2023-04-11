@@ -53,4 +53,25 @@ export default class UsersController{
             res.json(result.message);
         }
     }
+    static async apiRequestPasswordReset(req, res) {
+    const { email } = req.body;
+    const result = await UsersDAO.createPasswordResetToken(email);
+    
+        if (result.success) {
+            res.status(200).json({ message: 'Password reset email sent' });
+        } else {
+            res.status(400).json({ error: result.message });
+        }
+    }
+    static async apiResetPassword(req, res) {
+    const { token } = req.params;
+    const newPassword = req.body.password;
+    const result = await UsersDAO.resetPassword(token, newPassword);
+    
+        if (result.success) {
+            res.status(200).json({ message: 'Password updated successfully' });
+        } else {
+            res.status(400).json({ error: result.message });
+        }
+    }
 }
