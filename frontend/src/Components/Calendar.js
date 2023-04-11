@@ -12,6 +12,7 @@ import moment from 'moment'
 import axios from 'axios'
 import { buildPath } from '../utils/buildPath'
 import './Calendar.css'
+import {setTasks} from '../data/setTasks.js';
 import LogOut from './LogOut'
 import {useNavigate}  from 'react-router-dom';
 
@@ -37,17 +38,18 @@ function Main() {
   const [tasks, setTask] = useState({ taskName: '', description: '' })
 
   //Current date variable
-  var currentDate = new Date()
-  var currentMonth = currentDate.getMonth()
+  var currentDate = new Date();
+  var currentMonth = currentDate.getMonth();
+  var currentYear = currentDate.getFullYear();
 
   //Task array
-  var taskArray = []
+  var taskArray = [];
 
   //User id
-  var userID = localStorage.getItem('userid')
+  var userID = localStorage.getItem('userid');
 
   //Function to get task title from task information
-  const getTaskTitle = async (id) => {
+  /*const getTaskTitle = async (id) => {
     let jsonbuffer
     let parsed
     let tasktitle
@@ -63,10 +65,10 @@ function Main() {
     } catch (error) {
       console.log(error)
     }
-  }
+  }*/
 
   //Setting our calendar to the user default from the database
-  const setCalendar = (array) => {
+  /*const setCalendar = (array) => {
     //defining our variables for this function
     let title
     let start
@@ -114,12 +116,16 @@ function Main() {
       .catch((error) => {
         console.error(error)
       })
-  }
+  }*/
 
   //initiating our events state
   useEffect(() => {
-    setCalendar(taskArray)
+    //setCalendar(taskArray)
     //setAllEvents(taskArray)
+    //Calling the setTasks functinon to fill the calendar
+    setTasks(taskArray, userID, currentMonth, currentYear);
+    //Updating state
+    setAllEvents(taskArray);
   }, [])
 
   function handleAddTask(){
