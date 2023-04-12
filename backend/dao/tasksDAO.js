@@ -55,7 +55,7 @@ export default class TasksDAO {
               else{
                 let field = "calendar." + savedTask.datestart.getMonth();
                 const updateUser = await User.updateOne({_id: savedTask.user},{
-                  $push: {[field]:{day: savedTask.datestart.getDate(), Task: savedTask._id, _id: finderId}}
+                  $push: {[field]:{day: savedTask.datestart.getDate(), Task: savedTask._id, title: savedTask.title, description: savedTask.description, _id: finderId}}
                 }
                 );
                 console.log(updateUser);
