@@ -22,32 +22,15 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-/*const events = [
-  {
-      title: "Big Meeting",
-      allDay: true,
-      start: new Date(2021, 6, 0),
-      end: new Date(2021, 6, 0),
-  },
-  {
-      title: "Vacation",
-      start: new Date(2021, 6, 7),
-      end: new Date(2021, 6, 10),
-  },
-  {
-      title: "Conference",
-      start: new Date(2021, 6, 20),
-      end: new Date(2021, 6, 23),
-  },
-];*/
-
 function CalendarComponent() {
-  const navigate = useNavigate()
-  //Defining our event variables
-  //const [allEvents, setAllEvents] = useState(events)
-
   //Task array
   const taskArray = [];
+
+  const navigate = useNavigate()
+
+  //Defining our event variables
+  const [allEvents, setAllEvents] = useState(taskArray);
+  const [eventsLoaded, setEventsLoaded] = useState(false)
 
   //defining our variables for this function
   let title
@@ -61,69 +44,38 @@ function CalendarComponent() {
    var currentMonth = currentDate.getMonth();
    var currentYear = currentDate.getFullYear();
 
-   //call it here
-   setTasks().then(response =>{
-    //looping through our task array for the given month
-    //console.log(response.data);
-    for(let i = 0; i < response.data.length; i++){
-    //storing the json at the current index in a buffer
-    bufferArray = JSON.stringify(response.data[i]);
-    //parsing the json
-    buffer = JSON.parse(bufferArray);
-    //setting the title to the json task
-    title = buffer.title;
-    //setting the start date to the current task date
-    start = new Date(currentYear, (currentMonth), parseInt(buffer.day));
-    //setting the end date to the current task date
-    end = new Date(currentYear, (currentMonth), parseInt(buffer.day));
-
-    taskArray.push({title: title, start: start, end: end});
-      //setAllEvents(prevState => [...prevState, {title: title, start: start, end: end}]);
-    }
-    // console.log(array);
-})
-  .catch((error) => {
-    console.error(error)
-  })
-
-  const [allEvents, setAllEvents] = useState(taskArray);
-  
-  //initiating our events state
-  /*useEffect(() => {
+   useEffect(() => {
     setTasks().then(response =>{
       //looping through our task array for the given month
-      //console.log(response.data);
+      console.log(response.data);
       for(let i = 0; i < response.data.length; i++){
-      //storing the json at the current index in a buffer
-      bufferArray = JSON.stringify(response.data[i]);
-      //parsing the json
-      buffer = JSON.parse(bufferArray);
-      //setting the title to the json task
-      title = buffer.title;
-      //setting the start date to the current task date
-      start = new Date(currentYear, (currentMonth), parseInt(buffer.day));
-      //setting the end date to the current task date
-      end = new Date(currentYear, (currentMonth), parseInt(buffer.day));
+        //storing the json at the current index in a buffer
+        bufferArray = JSON.stringify(response.data[i]);
+        //parsing the json
+        buffer = JSON.parse(bufferArray);
+        //setting the title to the json task
+        title = buffer.title;
+        //setting the start date to the current task date
+        start = new Date(currentYear, (currentMonth), parseInt(buffer.day));
+        //setting the end date to the current task date
+        end = new Date(currentYear, (currentMonth), parseInt(buffer.day));
 
-      taskArray.push({title: title, start: start, end: end});
-        //setAllEvents(prevState => [...prevState, {title: title, start: start, end: end}]);
+        taskArray.push({title: title, start: start, end: end});
       }
-      // console.log(array);
-  })
-    .catch((error) => {
-      console.error(error)
-    })
-    //Updating state
-    //setAllEvents(taskArray);
-  }, [])*/
+      setAllEvents(taskArray)
+      setEventsLoaded(true)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
 
+    }, [eventsLoaded])
+
+    console.log(allEvents)
   function handleAddTask(){
     navigate('/AddTask')
   }
 
-  var currentDate = new Date();
-
-  console.log(allEvents)
   const taskElements = allEvents.map((task, index) => {
     return <Task key={index}/>
   })
