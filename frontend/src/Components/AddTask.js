@@ -5,6 +5,9 @@ import { createTask } from "../data/createTask";
 import './AddTask.css'
 
 function AddTask() {
+  /** handle date in range fromt start and end date. 
+   * back button
+   */
     const navigate = useNavigate()
     const [successfulAdd, setSuccessfulAdd] = useState(false)
     const [formData, setFormData] = useState({
@@ -14,11 +17,11 @@ function AddTask() {
         dateend: '',
         description: '',
         interval: {
-          unit: '',
+          unit: 'none',
           value: '',
         },
         notes: '',
-        notifyintensity: '',
+        notifyintensity: 'none',
       });
     
       const handleSubmit = (e) => {

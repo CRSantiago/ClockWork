@@ -5,8 +5,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 80vh;
-    padding:20px;
+    /*min-height: 80vh;*/
+    flex-direction: column;
 }
 
 .calendar{
@@ -14,6 +14,21 @@
     height: 600px;
     border: 1px solid black;
     position: relative;
+}
+
+.LogOutButton{
+    margin-left: auto;    
+    width: 80px;
+    height: 25px;
+    font-size: medium;
+}
+
+.calendarTask{
+    justify-content: center;
+    padding-top: 200px;
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
 }
 
 .calendar > p{
