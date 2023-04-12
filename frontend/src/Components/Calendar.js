@@ -26,11 +26,18 @@ function CalendarComponent() {
   //Task array
   const taskArray = [];
 
+   //Current date variable
+   var currentDate = new Date();
+   var currentMonth = currentDate.getMonth();
+   var currentYear = currentDate.getFullYear();
+
   const navigate = useNavigate()
 
   //Defining our event variables
   const [allEvents, setAllEvents] = useState(taskArray);
   const [eventsLoaded, setEventsLoaded] = useState(false)
+  const [currDate, setCurrDate] = useState(currentDate)
+  const [taskElements, setTaskElements] = useState([])
 
   //defining our variables for this function
   let title
@@ -39,15 +46,10 @@ function CalendarComponent() {
   let bufferArray
   let buffer
 
-   //Current date variable
-   var currentDate = new Date();
-   var currentMonth = currentDate.getMonth();
-   var currentYear = currentDate.getFullYear();
-
    useEffect(() => {
     setTasks().then(response =>{
       //looping through our task array for the given month
-      console.log(response.data);
+      //console.log(response.data);
       for(let i = 0; i < response.data.length; i++){
         //storing the json at the current index in a buffer
         bufferArray = JSON.stringify(response.data[i]);
@@ -62,23 +64,44 @@ function CalendarComponent() {
 
         taskArray.push({title: title, start: start, end: end});
       }
+      // after api call, set initial variables
       setAllEvents(taskArray)
       setEventsLoaded(true)
+      const initTaskElementsFiltered = allEvents.filter(task => 
+        task.start.getDate() === currDate.getDate()
+      )
+      const initialTaskElements = initTaskElementsFiltered.map((task, index) => {
+        return <Task key={index} task={task}/>
       })
+      setTaskElements(initialTaskElements)
+      // end of variable initialization
+      }) // end of then
       .catch((error) => {
         console.error(error)
       })
 
     }, [eventsLoaded])
 
-    console.log(allEvents)
+  //console.log(allEvents)
   function handleAddTask(){
     navigate('/AddTask')
   }
 
-  const taskElements = allEvents.map((task, index) => {
-    return <Task key={index}/>
-  })
+  /*
+    Takes in a date selected in calendar ui. 
+    Based on the input, we then filter the allEvents to update the Task displayed in panel to reflect those task
+  */
+  function handleDateChange(date){
+    const newTaskElementsFiltered = allEvents.filter(task => 
+      task.start.getDate() === date.getDate()
+    )
+    const newTaskElements = newTaskElementsFiltered.map((task, index) => {
+      return <Task key={index} task={task}/>
+    })
+    setTaskElements(newTaskElements)
+    setCurrDate(date)
+  }
+
   return (
     <div className="calendarView">
       <LogOut />
@@ -90,10 +113,11 @@ function CalendarComponent() {
             startAccessor="start"
             endAccessor="end"
             onSelectEvent={(data) => {
-              console.log("onSelectEvent", data);
+              // console.log("onSelectEvent", data.start);
+              handleDateChange(data.start)
             }}
             onSelectSlot={(slotInfo) => {
-              console.log(slotInfo)
+              console.log(slotInfo.start)
             }}
             selectable
           />
@@ -104,7 +128,7 @@ function CalendarComponent() {
         <div className="emptySpace">{/*Empty space for styling purposes*/}</div>
 
         <div className="tasks">
-          <h1>{currentDate.toDateString()}</h1>
+          <h1>{currDate.toDateString()}</h1>
           Tasks 
           <button onClick={handleAddTask}>+</button>
           <div>

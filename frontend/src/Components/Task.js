@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-function Task() {
+function Task({task}) {
+    //console.log(task)
     return(
         <div>
-            <h2>I am task</h2>
+            <h2>{task.title}</h2>
         </div>
     )
 }
