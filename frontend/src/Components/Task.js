@@ -32,15 +32,20 @@ function Task({ task }) {
     deleteTask({
       id: localStorage.getItem("userid"),
       taskId: task.taskid,
-    }).then((response) => {
-      if (response.status === 200) {
-        alert("task deleted!")
-        navigate("/calendar")
-      } else {
-        alert("task could not be deleted!")
-      }
-      console.log(response)
     })
+      .then((response) => {
+        if (response.status === 200) {
+          alert("task deleted!")
+          setShowConfirmation(false)
+          navigate("/calendar")
+        }
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+        alert("task could not be deleted!")
+        setShowConfirmation(false)
+      })
 
     //}
   }
