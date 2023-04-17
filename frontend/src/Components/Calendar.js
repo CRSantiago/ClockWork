@@ -1,18 +1,18 @@
-import format from "date-fns/format"
-import getDay from "date-fns/getDay"
-import startOfWeek from "date-fns/startOfWeek"
-import React, { useState, useEffect } from "react"
-import { Calendar, dateFnsLocalizer } from "react-big-calendar"
-import "react-big-calendar/lib/css/react-big-calendar.css"
-import { useNavigate } from "react-router-dom"
-import "./Calendar.css"
-import { setTasks } from "../data/setTasks.js"
-import Navbar from "./Navigation/Navbar"
-import Task from "./Task"
+import format from 'date-fns/format'
+import getDay from 'date-fns/getDay'
+import startOfWeek from 'date-fns/startOfWeek'
+import React, { useState, useEffect } from 'react'
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { useNavigate } from 'react-router-dom'
+import './Calendar.css'
+import { setTasks } from '../data/setTasks.js'
+import Navbar from './Navigation/Navbar'
+import Task from './Task'
 
 //defining our calendar locale
 const locales = {
-  "en-US": require("date-fns/locale/en-US"),
+  'en-US': require('date-fns/locale/en-US'),
 }
 
 const localizer = dateFnsLocalizer({
@@ -98,7 +98,11 @@ function CalendarComponent() {
       })
   }, [eventsLoaded, currMonth])
 
-  //console.log(allEvents)
+  // force a reload after task deletion to retrieve new calendar
+  // passed as prop to Task component
+  function handleLoadingAfterDelete() {
+    setEventsLoaded(false)
+  }
 
   /*
     Takes in a date selected in calendar ui. 
@@ -109,7 +113,9 @@ function CalendarComponent() {
       (task) => task.start.getDate() === date.getDate()
     )
     const newTaskElements = newTaskElementsFiltered.map((task, index) => {
-      return <Task key={index} task={task} />
+      return (
+        <Task key={index} task={task} onDelete={handleLoadingAfterDelete} />
+      )
     })
     setTaskElements(newTaskElements)
     setCurrDate(date)
@@ -156,7 +162,7 @@ function CalendarComponent() {
             <h1>{currDate.toDateString()}</h1>
             <h3>Task</h3>
             <div>
-              {taskElements.length === 0 ? "No task for today!" : taskElements}
+              {taskElements.length === 0 ? 'No task for today!' : taskElements}
             </div>
           </div>
         </div>

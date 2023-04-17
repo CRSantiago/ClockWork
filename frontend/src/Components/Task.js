@@ -1,21 +1,21 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { getTask } from "../data/getTask"
-import { deleteTask } from "../data/deleteTask"
-import DeleteConfirmationDialog from "./Dialogs/DeleteDialog"
-import "./Task.css"
+import { getTask } from '../data/getTask'
+import { deleteTask } from '../data/deleteTask'
+import DeleteConfirmationDialog from './Dialogs/DeleteDialog'
+import './Task.css'
 
-function Task({ task }) {
+function Task({ task, onDelete }) {
   const navigate = useNavigate()
 
   const [showConfirmation, setShowConfirmation] = useState(false)
 
   function handleDetails() {
-    console.log("details button clicked!")
+    console.log('details button clicked!')
     getTask(task.taskid).then((response) => {
       console.log(response.data)
-      navigate("/TaskDetail", { state: { taskInfo: response.data } })
+      navigate('/TaskDetail', { state: { taskInfo: response.data } })
     })
   }
 
@@ -28,19 +28,24 @@ function Task({ task }) {
   }
 
   function handleConfirmDelete() {
-    console.log("delete button clicked!")
+    console.log('delete button clicked!')
     deleteTask({
-      id: localStorage.getItem("userid"),
+      id: localStorage.getItem('userid'),
       taskId: task.taskid,
-    }).then((response) => {
-      if (response.status === 200) {
-        alert("task deleted!")
-        navigate("/calendar")
-      } else {
-        alert("task could not be deleted!")
-      }
-      console.log(response)
     })
+      .then((response) => {
+        if (response.status === 200) {
+          alert('task deleted!')
+          setShowConfirmation(false)
+          onDelete()
+        }
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+        alert('task could not be deleted!')
+        setShowConfirmation(false)
+      })
 
     //}
   }

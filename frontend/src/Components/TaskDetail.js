@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-import "./TaskDetail.css"
-import "./AddTask.css"
-import Navbar from "./Navigation/Navbar"
-import { updateTask } from "../data/updateTask"
+import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import './TaskDetail.css'
+import './AddTask.css'
+import Navbar from './Navigation/Navbar'
+import { updateTask } from '../data/updateTask'
 
 function TaskDetail(props) {
   const location = useLocation()
@@ -15,7 +15,7 @@ function TaskDetail(props) {
 
   const [formData, setFormData] = useState({
     title: taskInfo.title,
-    user: localStorage.getItem("userid"),
+    user: localStorage.getItem('userid'),
     task_id: taskInfo._id,
     datestart: taskInfo.datestart,
     dateend: taskInfo.dateend,
@@ -34,9 +34,8 @@ function TaskDetail(props) {
     updateTask(formData)
       .then((response) => {
         if (response.status === 200) {
-          alert("task updated!")
+          alert('task updated!')
           console.log(response)
-          navigate("/calendar")
         }
         //console.log(response)
       })
@@ -90,8 +89,8 @@ function TaskDetail(props) {
             <label>Description:</label>
             {!makeEditable && (
               <p>
-                {formData.description === ""
-                  ? "no description"
+                {formData.description === ''
+                  ? 'no description'
                   : formData.description}
               </p>
             )}
@@ -154,7 +153,7 @@ function TaskDetail(props) {
             {!makeEditable && (
               <p>
                 {formData.interval.value === null
-                  ? "none"
+                  ? 'none'
                   : formData.interval.value}
               </p>
             )}
@@ -170,7 +169,7 @@ function TaskDetail(props) {
           <div className="form-info">
             <label>Notes:</label>
             {!makeEditable && (
-              <p>{formData.notes === "" ? "none" : formData.notes}</p>
+              <p>{formData.notes === '' ? 'none' : formData.notes}</p>
             )}
             {makeEditable && (
               <textarea
