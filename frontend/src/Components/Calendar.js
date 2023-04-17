@@ -1,18 +1,18 @@
-import format from 'date-fns/format'
-import getDay from 'date-fns/getDay'
-import startOfWeek from 'date-fns/startOfWeek'
-import React, { useState, useEffect } from 'react'
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import { useNavigate } from 'react-router-dom'
-import './Calendar.css'
-import { setTasks } from '../data/setTasks.js'
-import Navbar from './Navigation/Navbar'
-import Task from './Task'
+import format from "date-fns/format"
+import getDay from "date-fns/getDay"
+import startOfWeek from "date-fns/startOfWeek"
+import React, { useState, useEffect } from "react"
+import { Calendar, dateFnsLocalizer } from "react-big-calendar"
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import { useNavigate } from "react-router-dom"
+import "./Calendar.css"
+import { setTasks } from "../data/setTasks.js"
+import Navbar from "./Navigation/Navbar"
+import Task from "./Task"
 
 //defining our calendar locale
 const locales = {
-  'en-US': require('date-fns/locale/en-US'),
+  "en-US": require("date-fns/locale/en-US"),
 }
 
 const localizer = dateFnsLocalizer({
@@ -116,47 +116,51 @@ function CalendarComponent() {
   }
   return (
     <>
-    <div className='welcomeContainer'>
-      <div className='welcomeDiv'>
-        <h1>Welcome!</h1>
+      <div className="welcomeContainer">
+        <div className="welcomeDiv">
+          <h1>Welcome!</h1>
+        </div>
       </div>
-    </div>
-    <div className="calendarView">
-      <div className='navBarDiv'><Navbar /></div>
-      
-      <div className="calendarTask">
-        <div className="calendar">
-          <Calendar
-            date={currDate}
-            localizer={localizer}
-            events={allEvents}
-            startAccessor="start"
-            endAccessor="end"
-            // onRangeChange={(dateRange) => {
-            //   console.log(dateRange)
-            // }}
-            onNavigate={(newDate) => {
-              setCurrMonth(newDate.getMonth())
-              setCurrDate(newDate)
-            }}
-            onSelectEvent={(data) => {
-              // console.log("onSelectEvent", data.start);
-              handleDateChange(data.start)
-            }}
-            onSelectSlot={(data) => {
-              handleDateChange(data.start)
-            }}
-            selectable
-          />
+      <div className="calendarView">
+        <div className="navBarDiv">
+          <Navbar />
         </div>
 
-        <div className="tasks">
-          <h1>{currDate.toDateString()}</h1>
-          <h3>Task</h3>
-          <div>{taskElements.length === 0 ? "No task for today!" : taskElements}</div>
+        <div className="calendarTask">
+          <div className="calendar">
+            <Calendar
+              date={currDate}
+              localizer={localizer}
+              events={allEvents}
+              startAccessor="start"
+              endAccessor="end"
+              // onRangeChange={(dateRange) => {
+              //   console.log(dateRange)
+              // }}
+              onNavigate={(newDate) => {
+                setCurrMonth(newDate.getMonth())
+                setCurrDate(newDate)
+              }}
+              onSelectEvent={(data) => {
+                // console.log("onSelectEvent", data.start);
+                handleDateChange(data.start)
+              }}
+              onSelectSlot={(data) => {
+                handleDateChange(data.start)
+              }}
+              selectable
+            />
+          </div>
+
+          <div className="tasks">
+            <h1>{currDate.toDateString()}</h1>
+            <h3>Task</h3>
+            <div>
+              {taskElements.length === 0 ? "No task for today!" : taskElements}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </>
   )
 }
