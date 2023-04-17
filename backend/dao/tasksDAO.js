@@ -96,14 +96,19 @@ export default class TasksDAO {
             try {
               const verified = jwt.verify(jwttoken, jwtSecretKey);
               if (verified) {
+                const foundTask = await Task.find({ _id: taskId, user: id });
                 const updatedTask = await Task.updateOne({ _id: taskId, user: id }, { $set: taskData });
                 if (updatedTask.nModified === 0) {
                   throw new Error('Unable to update the task');
                 }
                 // REMOVE TASKS FROM CALANDER
-                const foundTask = await Task.find({ _id: taskId, user: id });
                 let currentDate = new Date(foundTask[0].datestart);
-                while (currentDate < foundTask[0].dateend){
+                let currentEndDate = new Date(foundTask[0].dateend);
+                if (currentDate >= currentEndDate){
+                  console.log("NOT REGULAR! CHANGING THE END DATE SO IT ACTUALLY DELETES THE TASK!");
+                  currentEndDate.setMonth(currentEndDate.getMonth() + 1);
+                }
+                while (currentDate <= currentEndDate){
                   let field = "calendar." + currentDate.getMonth();
                   console.log(foundTask[0].foreignid);
                   const deletedTaskCalendar = await User.updateMany({ _id: id}, {$pull: {[field]: {_id: {$in: foundTask[0].foreignid}}}});
@@ -126,11 +131,11 @@ export default class TasksDAO {
                   while(currentDate < endDate){
                       console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
                       let field = "calendar." + currentDate.getMonth();
-                      const updateUser = await User.updateOne({_id: taskData.user},{
-                        $push: {[field]:{day: currentDate.getDate(), Task: taskData._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                      const updateUser = await User.updateOne({_id: id},{
+                        $push: {[field]:{day: currentDate.getDate(), Task: currentDate._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
                       }
                       );
-  
+                      console.log(updateUser);
                       if (taskData.interval.unit == 'months'){
                         currentDate.setMonth(currentDate.getMonth() + val);
                       }
@@ -138,6 +143,15 @@ export default class TasksDAO {
                         currentDate.setDate(currentDate.getDate() + val);
                       }
                     }
+                  }
+                  else{
+                    console.log("non-regular...");
+                    let field = "calendar." + currentDate.getMonth();
+                    const updateUser = await User.updateOne({_id: id},{
+                      $push: {[field]:{day: currentDate.getDate(), Task: currentDate._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                    }
+                    );
+                    console.log(updateUser);
                   }
                 return updatedTask;
               }
@@ -147,7 +161,7 @@ export default class TasksDAO {
               }
             }catch (error) {
               console.error(error);
-              //res.status(500).json(error);
+              throw error;
               }
         }
 
@@ -167,8 +181,13 @@ export default class TasksDAO {
               {
                 throw new Error('Unable to delete the task');
               }
+              let currentEndDate = new Date(foundTask[0].dateend);
               let currentDate = new Date(foundTask[0].datestart);
-              while (currentDate < foundTask[0].dateend){
+              if (currentDate >= currentEndDate){
+                console.log("NOT REGULAR! CHANGING THE END DATE SO IT ACTUALLY DELETES THE TASK!");
+                currentEndDate.setMonth(currentEndDate.getMonth() + 1);
+              }
+              while (currentDate <= currentEndDate){
                 let field = "calendar." + currentDate.getMonth();
                 const deletedTaskCalendar = await User.updateMany({ _id: id}, {$pull: {[field]: {_id: {$in: foundTask[0].foreignid}}}});
                 console.log("deleting...");
