@@ -1,36 +1,38 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { createTask } from '../data/createTask'
-import './AddTask.css'
+import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import './TaskDetail.css'
+import { updateTask } from '../data/updateTask'
 
-function AddTask() {
-  /** handle date in range fromt start and end date.
-   * back button
-   */
+function TaskDetail(props) {
+  const location = useLocation()
   const navigate = useNavigate()
+  console.log(location.state.taskInfo[0])
+  const taskInfo = location.state.taskInfo[0]
   const [successfulAdd, setSuccessfulAdd] = useState(false)
   const [formData, setFormData] = useState({
-    title: '',
+    title: taskInfo.title,
     user: localStorage.getItem('userid'),
-    datestart: '',
-    dateend: '',
-    description: '',
+    task_id: taskInfo._id,
+    datestart: taskInfo.datestart,
+    dateend: taskInfo.dateend,
+    description: taskInfo.description,
     interval: {
-      unit: 'none',
-      value: '',
+      unit: taskInfo.interval.unit,
+      value: taskInfo.interval.value,
     },
-    notes: '',
-    notifyintensity: 'none',
+    notes: taskInfo.notes,
+    notifyintensity: taskInfo.notifyintensity,
   })
 
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(formData)
-    createTask(formData)
+    updateTask(formData)
       .then((response) => {
         if (response.status === 200) {
-          alert('task added!')
-          navigate('/calendar')
+          alert('task updated!')
+          console.log(response)
+          //   navigate('/calendar')
         }
         console.log(response)
       })
@@ -60,7 +62,7 @@ function AddTask() {
     <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="full-width form-info">
-          <h3>Add Task Form</h3>
+          <h3>Task Details</h3>
         </div>
         <div className="form-info">
           <label>Title:</label>
@@ -144,11 +146,11 @@ function AddTask() {
           </select>
         </div>
         <div className="form-info full-width">
-          <button type="submit">Add Task</button>
+          <button type="submit">submit edit</button>
         </div>
       </form>
     </div>
   )
 }
 
-export default AddTask
+export default TaskDetail
