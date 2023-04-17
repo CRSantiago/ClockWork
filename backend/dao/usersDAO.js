@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 const nodemailer = import("nodemailer");
 import randString from "../methods/randString.js";
 import sendMail from "../methods/sendMail.cjs";
+import sendMailPR from "../methods/sendMailPR.cjs";
+import crypto from "crypto";
 //let users;
 
 export default class UsersDAO{
@@ -163,4 +165,48 @@ export default class UsersDAO{
               return { success: false, message: 'User not found' };
           }
         }
+    static async createPasswordResetToken(email) {
+      const user = await User.findOne({ email });
+
+      if(!user) 
+      {
+        return { success: false, message: 'User not found'};
+      }
+      //creates token using crypto
+      const token = crypto.randomBytes(20).toString('hex');
+      user.passwordResetToken = token;
+      user.passwordResetTokenExpires = Date.now() + 900000; // 15 minutes
+      //saves user with password reset token and expiration
+      await user.save();
+
+      sendMailPR(user.email, token);
+
+      return {success: true};
+
+    }
+
+    static async resetPassword(token, newPassword) {
+      const user = await User.findOne({
+        passwordResetToken: token,
+        passwordResetTokenExpires: { $gt: Date.now() },
+      });
+
+      if (!user) {
+        return { success: false, message: 'Invalid or expired token' };
+      }
+
+      //hash new password
+      const salt = bcrypt.genSaltSync(5);
+      const hash = await bcrypt.hash(newPassword, salt);
+
+      //store password in user and change tokens to undefined
+      user.password = hash;
+      user.passwordResetToken = undefined;
+      user.passwordResetTokenExpires = undefined;
+
+      await user.save();
+
+      return { success: true};
+    
+    }
 }

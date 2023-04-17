@@ -36,6 +36,12 @@ router.patch("/updateTask/:id/:taskId", function (req, res) {
 router.delete("/deleteTask/:id/:taskId", function (req, res) {
     TaskCtrl.apiDeleteTask(req, res);
 });
+router.post("/requestPasswordReset", function (req, res) {
+    UsersCtrl.apiRequestPasswordReset(req, res);
+});
+router.post("/resetPassword/:token", function (req, res) {
+    UsersCtrl.apiResetPassword(req, res);
+});
 
 //router.route("/").get((req,res) => res.send("hello world"));
 
