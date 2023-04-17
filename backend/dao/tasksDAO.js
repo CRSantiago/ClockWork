@@ -147,7 +147,7 @@ export default class TasksDAO {
               }
             }catch (error) {
               console.error(error);
-              //res.status(500).json(error);
+              throw error;
               }
         }
 
@@ -167,8 +167,13 @@ export default class TasksDAO {
               {
                 throw new Error('Unable to delete the task');
               }
+              let currentEndDate = new Date(foundTask[0].dateend);
               let currentDate = new Date(foundTask[0].datestart);
-              while (currentDate < foundTask[0].dateend){
+              if (currentDate >= currentEndDate){
+                console.log("NOT REGULAR! CHANGING THE END DATE SO IT ACTUALLY DELETES THE TASK!");
+                currentEndDate.setMonth(currentEndDate.getMonth() + 1);
+              }
+              while (currentDate < currentEndDate){
                 let field = "calendar." + currentDate.getMonth();
                 const deletedTaskCalendar = await User.updateMany({ _id: id}, {$pull: {[field]: {_id: {$in: foundTask[0].foreignid}}}});
                 console.log("deleting...");
