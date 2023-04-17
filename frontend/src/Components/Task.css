@@ -1,8 +1,19 @@
-.taskDiv {
+.taskContainer {
   display: flex;
   width: 100%;
+  justify-content: center;
+}
+
+.taskDiv {
+  display: flex;
+  width: 90%;
   align-items: center;
   justify-content: space-around;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #3174ad;
+  color: white;
 }
 
 .buttonDiv {
@@ -18,8 +29,9 @@
   background-image: radial-gradient(
     100% 100% at 100% 0,
     #5adaff 0,
-    #5468ff 100%
+    #5fa8d3 100%
   );
+  width: 50%;
   border: 0;
   border-radius: 6px;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
@@ -28,7 +40,7 @@
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   height: 24px;
   justify-content: center;
   line-height: 1;
@@ -37,8 +49,8 @@
   padding-left: 16px;
   padding-right: 16px;
   position: relative;
-  text-align: left;
   text-decoration: none;
+  text-align: center;
   transition: box-shadow 0.15s, transform 0.15s;
   user-select: none;
   -webkit-user-select: none;
@@ -46,6 +58,7 @@
   white-space: nowrap;
   will-change: box-shadow, transform;
   font-size: 14px;
+  margin-right: 1em;
 }
 
 .detailsButton:focus {
@@ -70,9 +83,10 @@
   appearance: none;
   background-image: radial-gradient(
     100% 100% at 100% 0,
-    #ff4d4d 0%,
+    #ff7a7a 0%,
     #ff3300 100%
   );
+  width: 50%;
   border: 0;
   border-radius: 6px;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
@@ -81,7 +95,7 @@
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   height: 24px;
   justify-content: center;
   line-height: 1;
@@ -90,7 +104,7 @@
   padding-left: 16px;
   padding-right: 16px;
   position: relative;
-  text-align: left;
+  text-align: center;
   text-decoration: none;
   transition: box-shadow 0.15s, transform 0.15s;
   user-select: none;

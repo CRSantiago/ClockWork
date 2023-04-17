@@ -7,7 +7,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { useNavigate } from 'react-router-dom'
 import './Calendar.css'
 import { setTasks } from '../data/setTasks.js'
-import LogOut from './LogOut'
+import Navbar from './Navigation/Navbar'
 import Task from './Task'
 
 //defining our calendar locale
@@ -99,9 +99,6 @@ function CalendarComponent() {
   }, [eventsLoaded, currMonth])
 
   //console.log(allEvents)
-  function handleAddTask() {
-    navigate('/AddTask')
-  }
 
   /*
     Takes in a date selected in calendar ui. 
@@ -118,8 +115,15 @@ function CalendarComponent() {
     setCurrDate(date)
   }
   return (
+    <>
+    <div className='welcomeContainer'>
+      <div className='welcomeDiv'>
+        <h1>Welcome!</h1>
+      </div>
+    </div>
     <div className="calendarView">
-      <LogOut />
+      <div className='navBarDiv'><Navbar /></div>
+      
       <div className="calendarTask">
         <div className="calendar">
           <Calendar
@@ -149,11 +153,11 @@ function CalendarComponent() {
         <div className="tasks">
           <h1>{currDate.toDateString()}</h1>
           <h3>Task</h3>
-          <button onClick={handleAddTask}>Add Task+</button>
-          <div>{taskElements}</div>
+          <div>{taskElements.length === 0 ? "No task for today!" : taskElements}</div>
         </div>
       </div>
     </div>
+    </>
   )
 }
 

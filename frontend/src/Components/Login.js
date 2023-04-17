@@ -1,5 +1,6 @@
 //Imports **NOTE** All CSS Files need to be in Component folder to use ./x.css ** NOTE**
 import React, { useState} from 'react';
+import {useNavigate} from 'react-router-dom'
 import './LoginPage.css';
 import './Register.css';
 import './Login.css';
@@ -9,6 +10,8 @@ import {buildPath} from '../utils/buildPath'
 import validator from "validator";
 
 function Login(){
+    const navigate = useNavigate()
+
     //Defining our state variables
     const [email, setEmail] = useState(""); //Email default is empty
     const [password, setPassword] = useState(""); //Password default is empty
@@ -44,11 +47,11 @@ function Login(){
             if(authToken !== null){
                 localStorage.setItem("token", authToken);
                 localStorage.setItem("userid", response.data._id);
-                window.location.href = '/calendar'
+                navigate('/calendar')
             }
             else
             {
-                window.location.href = '/'
+                navigate('/')
             }
 
         })
