@@ -89,6 +89,8 @@ export default class TasksDAO {
 
         static async updateTask(id, taskId, taskData, token) 
         {
+            console.log("updating task...");
+            console.log(taskData);
             let jwtSecretKey = process.env.JWT_SECRET_KEY;
             let jwttoken = token;
             try {
@@ -98,6 +100,45 @@ export default class TasksDAO {
                 if (updatedTask.nModified === 0) {
                   throw new Error('Unable to update the task');
                 }
+                // REMOVE TASKS FROM CALANDER
+                const foundTask = await Task.find({ _id: taskId, user: id });
+                let currentDate = new Date(foundTask[0].datestart);
+                while (currentDate < foundTask[0].dateend){
+                  let field = "calendar." + currentDate.getMonth();
+                  console.log(foundTask[0].foreignid);
+                  const deletedTaskCalendar = await User.updateMany({ _id: id}, {$pull: {[field]: {_id: {$in: foundTask[0].foreignid}}}});
+                  console.log("deleting...");
+                  console.log(deletedTaskCalendar);
+                  currentDate.setMonth(currentDate.getMonth() + 1);
+                }
+                // POPULATE REGULAR TASKS AGAIN
+                const isRegular = (taskData.interval.unit == 'days' || taskData.interval.unit == 'weeks' || taskData.interval.unit == 'months');
+                if (isRegular){ 
+                  console.log("start interval population");
+                  let val = new Number(taskData.interval.value);
+                  let currentDate = new Date(taskData.datestart);
+                  let endDate = new Date(taskData.dateend);
+                  console.log(currentDate);
+                  console.log(taskData.dateend);
+                  if (taskData.interval.unit == 'weeks'){
+                    val = val*7;
+                  }
+                  while(currentDate < endDate){
+                      console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
+                      let field = "calendar." + currentDate.getMonth();
+                      const updateUser = await User.updateOne({_id: taskData.user},{
+                        $push: {[field]:{day: currentDate.getDate(), Task: taskData._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                      }
+                      );
+  
+                      if (taskData.interval.unit == 'months'){
+                        currentDate.setMonth(currentDate.getMonth() + val);
+                      }
+                      else{
+                        currentDate.setDate(currentDate.getDate() + val);
+                      }
+                    }
+                  }
                 return updatedTask;
               }
               else{
@@ -106,7 +147,7 @@ export default class TasksDAO {
               }
             }catch (error) {
               console.error(error);
-              res.status(500).json(error);
+              //res.status(500).json(error);
               }
         }
 
