@@ -1,5 +1,5 @@
 /* Css for our login display */
-.display{
+.display {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -11,46 +11,46 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-.loginDisplay{
+.loginDisplay {
   display: flex;
   flex-direction: column;
   object-position: center;
   position: relative;
-  background-color: #1B4965;
+  background-color: #1b4965;
   border-radius: 5px;
 }
 
-.loginImage{
+.loginImage {
   display: flex;
   position: relative;
   object-position: left;
 }
 
-.loginf{
-  display:flex;
+.loginf {
+  display: flex;
   padding: 0px 25px;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
   height: 100%;
-  width:20vw;
+  width: 20vw;
 }
 
-.loginf > input{
+.loginf > input {
   padding: 20px 20px;
   box-sizing: border-box;
-  margin-bottom: .5em;
-  width:100%;
+  margin-bottom: 0.5em;
+  width: 100%;
 }
 
-.loginFormText{
+.loginFormText {
   display: flex;
   font-size: xx-large;
   text-align: center;
   color: white;
 }
 
-.loginClose{
+.loginClose {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -61,8 +61,21 @@
   width: 1px;
 }
 
-.registerSuccesful{
+.registerSuccesful {
   color: white;
   font-size: medium;
   text-align: center;
+}
+
+.error-div {
+  margin-top: 1em;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.error-message {
+  color: #f40a02;
+  font-weight: bold;
+  font-size: 16px;
 }
