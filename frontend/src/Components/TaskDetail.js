@@ -22,7 +22,7 @@ function TaskDetail(props) {
     description: taskInfo.description,
     interval: {
       unit: taskInfo.interval.unit,
-      value: taskInfo.interval.value,
+      value: taskInfo.interval.value === null ? 0 : taskInfo.interval.value,
     },
     notes: taskInfo.notes,
     notifyintensity: taskInfo.notifyintensity,
@@ -30,11 +30,11 @@ function TaskDetail(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log('formdata in update')
     console.log(formData)
     updateTask(formData)
       .then((response) => {
         if (response.status === 200) {
-          alert('task updated!')
           console.log(response)
         }
         //console.log(response)

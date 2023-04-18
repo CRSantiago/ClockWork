@@ -118,13 +118,13 @@ export default class TasksDAO {
                 }
                 // POPULATE REGULAR TASKS AGAIN
                 const isRegular = (taskData.interval.unit == 'days' || taskData.interval.unit == 'weeks' || taskData.interval.unit == 'months');
+                currentDate = new Date(taskData.datestart);
+                let endDate = new Date(taskData.dateend);
                 if (isRegular){ 
                   console.log("start interval population");
                   let val = new Number(taskData.interval.value);
-                  let currentDate = new Date(taskData.datestart);
-                  let endDate = new Date(taskData.dateend);
                   console.log(currentDate);
-                  console.log(taskData.dateend);
+                  console.log(endDate);
                   if (taskData.interval.unit == 'weeks'){
                     val = val*7;
                   }
@@ -132,7 +132,7 @@ export default class TasksDAO {
                       console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
                       let field = "calendar." + currentDate.getMonth();
                       const updateUser = await User.updateOne({_id: id},{
-                        $push: {[field]:{day: currentDate.getDate(), Task: currentDate._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                        $push: {[field]:{day: currentDate.getDate(), Task: foundTask[0]._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
                       }
                       );
                       console.log(updateUser);
@@ -147,8 +147,11 @@ export default class TasksDAO {
                   else{
                     console.log("non-regular...");
                     let field = "calendar." + currentDate.getMonth();
+                    console.log("MONTH: "+currentDate.getMonth());
+                    console.log(currentDate);
+                    console.log(endDate);
                     const updateUser = await User.updateOne({_id: id},{
-                      $push: {[field]:{day: currentDate.getDate(), Task: currentDate._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                      $push: {[field]:{day: currentDate.getDate(), Task: foundTask[0]._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
                     }
                     );
                     console.log(updateUser);

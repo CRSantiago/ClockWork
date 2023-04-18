@@ -7,6 +7,8 @@ import DeleteConfirmationDialog from './Dialogs/DeleteDialog'
 import './Task.css'
 
 function Task({ task, onDelete }) {
+  console.log('task in task component')
+  console.log(task)
   const navigate = useNavigate()
 
   const [showConfirmation, setShowConfirmation] = useState(false)

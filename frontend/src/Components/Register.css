@@ -1,36 +1,36 @@
 /* Css for our Register display */
-.registerDisplay{
+.registerDisplay {
   display: flex;
   flex-direction: column;
-  background-color: #1B4965;
+  background-color: #1b4965;
   border-radius: 5px;
   position: relative;
 }
 
-.registerf{
-  display:flex;
+.registerf {
+  display: flex;
   padding: 0px 25px;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   height: 100%;
-  width:20vw;
+  width: 20vw;
 }
 
-.registerf > input{
+.registerf > input {
   padding: 10px 10px;
   box-sizing: border-box;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
-.registerFormText{
+.registerFormText {
   display: flex;
   font-size: xx-large;
   text-align: center;
   color: white;
 }
 
-.registerClose{
+.registerClose {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -42,17 +42,17 @@
 }
 
 /*Styling our successful registration form*/
-.registrationSuccess{
+.registrationSuccess {
   display: flex;
   flex-direction: column;
   padding-top: 0px;
   object-position: center;
   position: relative;
-  background-color: #1B4965;
+  background-color: #1b4965;
   border-radius: 5px;
 }
 
-.thankYou{
+.thankYou {
   display: flex;
   flex-direction: column;
   font-size: xx-large;
@@ -60,10 +60,10 @@
   margin-top: 125px;
   padding: 25px 25px;
   flex-wrap: wrap;
-  height:100%;
+  height: 100%;
 }
 
-.successHidden{
+.successHidden {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -72,4 +72,10 @@
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+@media screen and (min-width: 768px) {
+  .registerf {
+    width: 15vw;
+  }
 }
