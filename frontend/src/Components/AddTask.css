@@ -115,3 +115,13 @@ textarea {
   box-shadow: #206d5c 0 3px 7px inset;
   transform: translateY(2px);
 }
+
+@media screen and (min-width: 768px) {
+  .addTask-container {
+    height: 55vh;
+  }
+
+  .addTaskButton {
+    margin-top: 1.5em;
+  }
+}
