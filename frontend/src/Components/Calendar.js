@@ -124,7 +124,7 @@ function CalendarComponent() {
     <>
       <div className="welcomeContainer">
         <div className="welcomeDiv">
-          <h1>Welcome!</h1>
+          <h1>Clockwork Dashboard</h1>
         </div>
       </div>
       <div className="calendarView">
@@ -140,15 +140,11 @@ function CalendarComponent() {
               events={allEvents}
               startAccessor="start"
               endAccessor="end"
-              // onRangeChange={(dateRange) => {
-              //   console.log(dateRange)
-              // }}
               onNavigate={(newDate) => {
                 setCurrMonth(newDate.getMonth())
                 setCurrDate(newDate)
               }}
               onSelectEvent={(data) => {
-                // console.log("onSelectEvent", data.start);
                 handleDateChange(data.start)
               }}
               onSelectSlot={(data) => {
@@ -160,7 +156,7 @@ function CalendarComponent() {
 
           <div className="tasks">
             <h1>{currDate.toDateString()}</h1>
-            <h3>Task</h3>
+            <h3>Tasks</h3>
             <div>
               {taskElements.length === 0 ? 'No task for today!' : taskElements}
             </div>

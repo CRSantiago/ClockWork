@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { createTask } from '../data/createTask'
 import Navbar from './Navigation/Navbar'
 import './AddTask.css'
 
 function AddTask() {
-  /** handle date in range fromt start and end date.
-   * back button
-   */
-  const navigate = useNavigate()
   const [successfulAdd, setSuccessfulAdd] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
@@ -30,8 +25,7 @@ function AddTask() {
     createTask(formData)
       .then((response) => {
         if (response.status === 200) {
-          alert('task added!')
-          navigate('/calendar')
+          setSuccessfulAdd(true)
         }
         console.log(response)
       })
@@ -44,6 +38,7 @@ function AddTask() {
       ...prevState,
       [name]: value,
     }))
+    setSuccessfulAdd(false)
   }
 
   const handleIntervalChange = (e) => {
@@ -55,6 +50,7 @@ function AddTask() {
         [name]: value,
       },
     }))
+    setSuccessfulAdd(false)
   }
 
   return (
@@ -157,6 +153,11 @@ function AddTask() {
             </button>
           </div>
         </form>
+        {successfulAdd && (
+          <div className="form-info full-width">
+            <span>Task was successfully added!</span>
+          </div>
+        )}
       </div>
     </div>
   )
