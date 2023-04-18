@@ -132,7 +132,7 @@ export default class TasksDAO {
                       console.log("POPULATE Month: "+currentDate.getMonth()+" Date: "+ currentDate.getDate());
                       let field = "calendar." + currentDate.getMonth();
                       const updateUser = await User.updateOne({_id: id},{
-                        $push: {[field]:{day: currentDate.getDate(), Task: currentDate._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                        $push: {[field]:{day: currentDate.getDate(), Task: foundTask[0]._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
                       }
                       );
                       console.log(updateUser);
@@ -151,7 +151,7 @@ export default class TasksDAO {
                     console.log(currentDate);
                     console.log(endDate);
                     const updateUser = await User.updateOne({_id: id},{
-                      $push: {[field]:{day: currentDate.getDate(), Task: currentDate._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
+                      $push: {[field]:{day: currentDate.getDate(), Task: foundTask[0]._id, title: taskData.title, description: taskData.description, _id: foundTask[0].foreignid}}
                     }
                     );
                     console.log(updateUser);
