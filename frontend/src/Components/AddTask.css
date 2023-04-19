@@ -79,7 +79,7 @@ textarea {
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   height: 24px;
   justify-content: center;
   line-height: 1;
@@ -116,7 +116,7 @@ textarea {
   transform: translateY(2px);
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1500px) {
   .addTask-container {
     height: 55vh;
   }
