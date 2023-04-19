@@ -15,7 +15,6 @@ export default class UsersDAO{
         let password_t = "";
         let token_t = "";
         let error = "";
-        // TODO: add support for logging in with email
 
         // Find the user in the database
         const jsonval = new Promise((resolve, reject)=>{
@@ -46,6 +45,11 @@ export default class UsersDAO{
                     return
                     }
               console.log("Match: "+match);
+              if (!data[0].isVerified){ // NOT VERIFIED
+                error = "user not verified";
+                console.log(error);
+                resolve({_id_t, username_t, password_t, token_t, error});
+              }
               if (match){
                 console.log("login successful");
                 username_t = uname;
