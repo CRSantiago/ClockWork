@@ -1,24 +1,24 @@
 //Imports **NOTE** All CSS Files need to be in Component folder to use ./x.css ** NOTE**
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import './LoginPage.css'
-import './Register.css'
-import './Login.css'
-import './LoginButtons.css'
-import axios from 'axios'
-import { buildPath } from '../utils/buildPath'
-import validator from 'validator'
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import "./LoginPage.css"
+import "./Register.css"
+import "./Login.css"
+import "./LoginButtons.css"
+import axios from "axios"
+import { buildPath } from "../utils/buildPath"
+import validator from "validator"
 
 function Login() {
   const navigate = useNavigate()
 
   //Defining our state variables
-  const [errorMessage, setErrorMessage] = useState('')
-  const [email, setEmail] = useState('') //Email default is empty
-  const [password, setPassword] = useState('') //Password default is empty
-  const [confirmEmail, setEmailConfirm] = useState('') //Email default is empty
-  const [confirmPassword, setPasswordConfirm] = useState('') //Password default is empty
-  const [username, setUserName] = useState('') //Usernae default is empty
+  const [errorMessage, setErrorMessage] = useState("")
+  const [email, setEmail] = useState("") //Email default is empty
+  const [password, setPassword] = useState("") //Password default is empty
+  const [confirmEmail, setEmailConfirm] = useState("") //Email default is empty
+  const [confirmPassword, setPasswordConfirm] = useState("") //Password default is empty
+  const [username, setUserName] = useState("") //Usernae default is empty
   const [showDisplay, setD] = useState({
     loginD: true,
     registerD: false,
@@ -43,13 +43,13 @@ function Login() {
     }
 
     axios
-      .post(buildPath('api/v1/clockwork/login'), userLogin)
+      .post(buildPath("api/v1/clockwork/login"), userLogin)
       .then((response) => {
         console.log(response.data)
-        if (response.data.error !== '') {
+        if (response.data.error !== "") {
           setErrorMessage(response.data.error)
         } else {
-          navigate('/')
+          navigate("/")
         }
         // else{
         //     alert("Logged in as: " + username);
@@ -57,9 +57,9 @@ function Login() {
         // let authToken = null
         let authToken = response.data.token
         if (authToken.length !== 0) {
-          localStorage.setItem('token', authToken)
-          localStorage.setItem('userid', response.data._id)
-          navigate('/calendar')
+          localStorage.setItem("token", authToken)
+          localStorage.setItem("userid", response.data._id)
+          navigate("/calendar")
         }
       })
       .catch((error) => {
@@ -69,7 +69,7 @@ function Login() {
 
   //Register function
   const RegisterFunc = (event) => {
-    console.log('in RegisterFunc()')
+    console.log("in RegisterFunc()")
     //Returns to login and adds user to database using api
     event.preventDefault()
     let emailIsValid = false
@@ -88,7 +88,7 @@ function Login() {
       !emailsAreEqual ||
       !passwordsAreEqual
     ) {
-      alert('Invalid input - Please check your entered credentials.')
+      alert("Invalid input - Please check your entered credentials.")
       //   setCredentialsInvalid({
       //     email: !emailIsValid,
       //     confirmEmail: !emailIsValid || !emailsAreEqual,
@@ -103,11 +103,11 @@ function Login() {
       password: password,
     }
     axios
-      .post(buildPath('api/v1/clockwork/register'), userRegister)
+      .post(buildPath("api/v1/clockwork/register"), userRegister)
       .then((response) => {
         //Printing data to console for testing
         console.log(response.data)
-        if (response.data.error === '') {
+        if (response.data.error === "") {
           //Updating our display state
           setD({
             loginD: true,
@@ -117,6 +117,10 @@ function Login() {
           })
           //Setting our selector back to login for user to login with new credentials
           setIsRegistered(true)
+          //send email
+          axios
+            .get(buildPath(`api/v1/clockwork/verify/${email}`))
+            .then((response) => console.log(response))
         } else {
           alert(`${response.data.error}`)
         }
@@ -128,7 +132,7 @@ function Login() {
 
   //Function that switches login form to register form or register form to success form
   const selectorSwap = (toSwap) => {
-    if (toSwap === 'login') {
+    if (toSwap === "login") {
       Sel({ login: true, register: false, forgot: false })
       setD({
         loginD: true,
@@ -136,7 +140,7 @@ function Login() {
         forgotD: false,
         registerSuccess: false,
       })
-    } else if (toSwap === 'register') {
+    } else if (toSwap === "register") {
       Sel({ login: false, register: true, forgot: false })
       setD({
         loginD: false,
@@ -144,7 +148,7 @@ function Login() {
         forgotD: false,
         registerSuccess: false,
       })
-    } else if (toSwap === 'forgot') {
+    } else if (toSwap === "forgot") {
       Sel({ login: false, register: false, forgot: true })
       setD({
         loginD: false,
@@ -168,22 +172,22 @@ function Login() {
       </div>
 
       {/* Defining our login display, className depends on current state of the form*/}
-      <div className={showDisplay.loginD ? 'loginDisplay' : 'loginClose'}>
+      <div className={showDisplay.loginD ? "loginDisplay" : "loginClose"}>
         {/* Defining our form which includes our user input and the submit button */}
 
         <div className="selectors">
           <button
-            name={selected.login ? 'selected' : 'goToLogin'}
+            name={selected.login ? "selected" : "goToLogin"}
             type="button"
-            onClick={() => selectorSwap('login')}
+            onClick={() => selectorSwap("login")}
           >
             Login
           </button>
 
           <button
-            name={selected.register ? 'selected' : 'goToRegister'}
+            name={selected.register ? "selected" : "goToRegister"}
             type="button"
-            onClick={() => selectorSwap('register')}
+            onClick={() => selectorSwap("register")}
           >
             Register
           </button>
@@ -195,9 +199,14 @@ function Login() {
 
         <div className="loginf">
           {isRegistered && (
-            <h3 className="registerSuccesful">
-              Thank you for registering {username}
-            </h3>
+            <div>
+              <h3 className="registerSuccesful">
+                Thank you for registering {username}
+              </h3>
+              <p>
+                Please check your email to verify your account before logging in
+              </p>
+            </div>
           )}
           <h1 className="loginFormText">Enter login below</h1>
 
@@ -224,29 +233,29 @@ function Login() {
               <span className="error-message">{errorMessage}</span>
             </div>
           ) : (
-            ''
+            ""
           )}
         </div>
       </div>
 
       {/*Defining our entire register display*/}
       <div
-        className={showDisplay.registerD ? 'registerDisplay' : 'registerClose'}
+        className={showDisplay.registerD ? "registerDisplay" : "registerClose"}
       >
         {/* Defining our form which includes our user input and the submit button */}
         <div className="selectors">
           <button
-            name={selected.login ? 'selected' : 'goToLogin'}
+            name={selected.login ? "selected" : "goToLogin"}
             type="button"
-            onClick={() => selectorSwap('login')}
+            onClick={() => selectorSwap("login")}
           >
             Login
           </button>
 
           <button
-            name={selected.register ? 'selected' : 'goToRegister'}
+            name={selected.register ? "selected" : "goToRegister"}
             type="button"
-            onClick={() => selectorSwap('register')}
+            onClick={() => selectorSwap("register")}
           >
             Register
           </button>

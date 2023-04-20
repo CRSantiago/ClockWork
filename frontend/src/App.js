@@ -16,7 +16,7 @@ function App() {
         <Route path="/calendar" index element={<CalendarPage />} />
         <Route path="/AddTask" index element={<AddTask />} />
         <Route path="/TaskDetail" index element={<TaskDetail />} />
-        <Route path="/:id" index element={<EmailConfirmation />} />
+        <Route path="verified/:id" index element={<EmailConfirmation />} />
       </Routes>
     </BrowserRouter>
   )
