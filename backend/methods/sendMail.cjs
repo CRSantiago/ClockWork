@@ -1,11 +1,11 @@
-const nodemailer = require("nodemailer")
-require("dotenv").config()
+const nodemailer = require('nodemailer')
+require('dotenv').config()
 
 //user and pass of email should be behind env file
 const sendMail = (email, uniqueString) => {
   const Transport = nodemailer.createTransport({
-    service: "Zoho",
-    host: "smtp.zoho.com",
+    service: 'Zoho',
+    host: 'smtp.zoho.com',
     port: 465,
     secure: true, // use SSL
     auth: {
@@ -18,18 +18,27 @@ const sendMail = (email, uniqueString) => {
   // let sender = "Clockwork Support" <clockworksupport@clockwork.fyi>;
 
   //html should be changed during live testing www.clockwork.fyi/api/v1/clockwork/verify/${uniqueString}
-  mailOptions = {
-    from: '"Clockwork Support" <clockworksupport@clockwork.fyi>',
-    to: email,
-    subject: "Email Verification",
-    html: `Click <a href="http://localhost:5000/api/v1/clockwork/verify/${uniqueString}">here</a> to verify your email. Thanks`,
+  if (process.env.NODE_ENV === 'production') {
+    mailOptions = {
+      from: '"Clockwork Support" <clockworksupport@clockwork.fyi>',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click <a href="http://clockwork1.herokuapp.com/api/v1/clockwork/verify/${uniqueString}">here</a> to verify your email. Thanks`,
+    }
+  } else {
+    mailOptions = {
+      from: '"Clockwork Support" <clockworksupport@clockwork.fyi>',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click <a href="http://localhost:5000/api/v1/clockwork/verify/${uniqueString}">here</a> to verify your email. Thanks`,
+    }
   }
 
   Transport.sendMail(mailOptions, function (error, response) {
     if (error) {
       console.log(error)
     } else {
-      console.log("Message sent")
+      console.log('Message sent')
     }
   })
 }
