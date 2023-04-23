@@ -159,6 +159,10 @@ function Login() {
     }
   }
 
+  function navigateForgotPassword(){
+    navigate("/forgotPassword")
+  }
+
   //Returning our HTML display
   return (
     //Defining our entire display window
@@ -226,6 +230,13 @@ function Login() {
 
           <button name="selected" type="submit" onClick={LoginFunc}>
             Log In
+          </button>
+
+          <button
+            className="forgotPasswordBtn"
+            onClick={navigateForgotPassword}
+          >
+            Forgot password?
           </button>
 
           {errorMessage.length !== 0 ? (

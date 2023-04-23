@@ -6,6 +6,7 @@ import CalendarPage from "./Pages/CalendarPage"
 import AddTask from "./Components/AddTask"
 import TaskDetail from "./Components/TaskDetail"
 import EmailConfirmation from "./Components/EmailConfirmation"
+import ForgotPassword from "./Components/ForgotPassword"
 import { Route, Routes, BrowserRouter } from "react-router-dom"
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/AddTask" index element={<AddTask />} />
         <Route path="/TaskDetail" index element={<TaskDetail />} />
         <Route path="verified/:id" index element={<EmailConfirmation />} />
+        <Route path="forgotPassword" index element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   )
