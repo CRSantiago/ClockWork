@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import './TaskDetail.css'
 import './AddTask.css'
 import Navbar from './Navigation/Navbar'
@@ -7,7 +7,6 @@ import { updateTask } from '../data/updateTask'
 
 function TaskDetail(props) {
   const location = useLocation()
-  const navigate = useNavigate()
 
   const taskInfo = location.state.taskInfo[0]
   const [successfulAdd, setSuccessfulAdd] = useState(false)
@@ -30,8 +29,6 @@ function TaskDetail(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('formdata in update')
-    console.log(formData)
     updateTask(formData)
       .then((response) => {
         if (response.status === 200) {
@@ -63,7 +60,7 @@ function TaskDetail(props) {
   }
 
   return (
-    <div className="container">
+    <div className="taskDetailcontainer">
       <div className="navBarDiv-addtask">
         <Navbar />
       </div>
@@ -111,7 +108,9 @@ function TaskDetail(props) {
               <input
                 type="datetime-local"
                 name="datestart"
-                value={formData.datestart}
+                value={new Date(formData.datestart)
+                  .toISOString()
+                  .substring(0, 16)}
                 onChange={handleChange}
                 required
               />
@@ -142,7 +141,9 @@ function TaskDetail(props) {
               <input
                 type="datetime-local"
                 name="dateend"
-                value={formData.dateend}
+                value={new Date(formData.dateend)
+                  .toISOString()
+                  .substring(0, 16)}
                 onChange={handleChange}
                 required
               />

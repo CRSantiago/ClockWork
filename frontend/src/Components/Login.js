@@ -1,24 +1,26 @@
 //Imports **NOTE** All CSS Files need to be in Component folder to use ./x.css ** NOTE**
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import "./LoginPage.css"
-import "./Register.css"
-import "./Login.css"
-import "./LoginButtons.css"
-import axios from "axios"
-import { buildPath } from "../utils/buildPath"
-import validator from "validator"
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './LoginPage.css'
+import './Register.css'
+import './Login.css'
+import './LoginButtons.css'
+import axios from 'axios'
+import { buildPath } from '../utils/buildPath'
+import validator from 'validator'
+import LoginImage from '../images/LoginImage.png'
 
 function Login() {
   const navigate = useNavigate()
 
   //Defining our state variables
-  const [errorMessage, setErrorMessage] = useState("")
-  const [email, setEmail] = useState("") //Email default is empty
-  const [password, setPassword] = useState("") //Password default is empty
-  const [confirmEmail, setEmailConfirm] = useState("") //Email default is empty
-  const [confirmPassword, setPasswordConfirm] = useState("") //Password default is empty
-  const [username, setUserName] = useState("") //Usernae default is empty
+  const [errorMessage, setErrorMessage] = useState('')
+  const [email, setEmail] = useState('') //Email default is empty
+  const [password, setPassword] = useState('') //Password default is empty
+  const [confirmEmail, setEmailConfirm] = useState('') //Email default is empty
+  const [confirmPassword, setPasswordConfirm] = useState('') //Password default is empty
+  const [feedback, setFeedBack] = useState('')
+  const [username, setUserName] = useState('') //Usernae default is empty
   const [showDisplay, setD] = useState({
     loginD: true,
     registerD: false,
@@ -31,7 +33,6 @@ function Login() {
     forgot: false,
   }) //Selector button state
   const [isRegistered, setIsRegistered] = useState(false)
-  //const [authToken, setAuthToken] = useState(null)
 
   //Login function
   const LoginFunc = (event) => {
@@ -43,23 +44,19 @@ function Login() {
     }
 
     axios
-      .post(buildPath("api/v1/clockwork/login"), userLogin)
+      .post(buildPath('api/v1/clockwork/login'), userLogin)
       .then((response) => {
-        console.log(response.data)
-        if (response.data.error !== "") {
+        if (response.data.error !== '') {
           setErrorMessage(response.data.error)
         } else {
-          navigate("/")
+          navigate('/')
         }
-        // else{
-        //     alert("Logged in as: " + username);
-        // }
-        // let authToken = null
+
         let authToken = response.data.token
         if (authToken.length !== 0) {
-          localStorage.setItem("token", authToken)
-          localStorage.setItem("userid", response.data._id)
-          navigate("/calendar")
+          localStorage.setItem('token', authToken)
+          localStorage.setItem('userid', response.data._id)
+          navigate('/calendar')
         }
       })
       .catch((error) => {
@@ -67,18 +64,43 @@ function Login() {
       })
   }
 
+  const passwordRegex =
+    /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/
+
+  function validatePassword(passwordTest) {
+    if (!passwordRegex.test(passwordTest)) {
+      const feedback = []
+      if (!/(?=.*[a-z])/.test(passwordTest)) {
+        feedback.push('at least one lowercase letter')
+      }
+      if (!/(?=.*[A-Z])/.test(passwordTest)) {
+        feedback.push('at least one uppercase letter')
+      }
+      if (!/(?=.*\d)/.test(passwordTest)) {
+        feedback.push('at least one number')
+      }
+      if (!/(?=.*[!@#$%^&*])/.test(passwordTest)) {
+        feedback.push('at least 1 special character')
+      }
+      if (password.length < 8) {
+        feedback.push('at least 8 characters')
+      }
+      setFeedBack(feedback)
+      return false
+    }
+    return true
+  }
+
   //Register function
   const RegisterFunc = (event) => {
-    console.log("in RegisterFunc()")
     //Returns to login and adds user to database using api
     event.preventDefault()
     let emailIsValid = false
     if (validator.isEmail(email)) {
-      //setMessage('Valid Email')
       emailIsValid = true
     }
 
-    const passwordIsValid = password.length > 6
+    const passwordIsValid = validatePassword(password)
     const emailsAreEqual = email === confirmEmail
     const passwordsAreEqual = password === confirmPassword
 
@@ -88,26 +110,34 @@ function Login() {
       !emailsAreEqual ||
       !passwordsAreEqual
     ) {
-      alert("Invalid input - Please check your entered credentials.")
-      //   setCredentialsInvalid({
-      //     email: !emailIsValid,
-      //     confirmEmail: !emailIsValid || !emailsAreEqual,
-      //     password: !passwordIsValid,
-      //     confirmPassword: !passwordIsValid || !passwordsAreEqual,
-      //   })
+      if (!emailIsValid) {
+        setErrorMessage('You entered an invalid email. Please try again.')
+      } else if (!emailsAreEqual) {
+        setErrorMessage(
+          'The emails you entered do not match. Please try again.'
+        )
+      } else if (!passwordsAreEqual) {
+        setErrorMessage(
+          'The passwords you entered do not match. Please try again.'
+        )
+      } else {
+        setErrorMessage('')
+      }
+
       return
     }
+
     const userRegister = {
       email: email,
       username: username,
       password: password,
     }
     axios
-      .post(buildPath("api/v1/clockwork/register"), userRegister)
+      .post(buildPath('api/v1/clockwork/register'), userRegister)
       .then((response) => {
         //Printing data to console for testing
         console.log(response.data)
-        if (response.data.error === "") {
+        if (response.data.error === '') {
           //Updating our display state
           setD({
             loginD: true,
@@ -117,12 +147,15 @@ function Login() {
           })
           //Setting our selector back to login for user to login with new credentials
           setIsRegistered(true)
+          setErrorMessage('')
+          setFeedBack('')
           //send email
           axios
             .get(buildPath(`api/v1/clockwork/verify/${email}`))
             .then((response) => console.log(response))
         } else {
-          alert(`${response.data.error}`)
+          setFeedBack('')
+          setErrorMessage(response.data.error)
         }
       })
       .catch((error) => {
@@ -132,7 +165,7 @@ function Login() {
 
   //Function that switches login form to register form or register form to success form
   const selectorSwap = (toSwap) => {
-    if (toSwap === "login") {
+    if (toSwap === 'login') {
       Sel({ login: true, register: false, forgot: false })
       setD({
         loginD: true,
@@ -140,7 +173,8 @@ function Login() {
         forgotD: false,
         registerSuccess: false,
       })
-    } else if (toSwap === "register") {
+      setErrorMessage('')
+    } else if (toSwap === 'register') {
       Sel({ login: false, register: true, forgot: false })
       setD({
         loginD: false,
@@ -148,19 +182,12 @@ function Login() {
         forgotD: false,
         registerSuccess: false,
       })
-    } else if (toSwap === "forgot") {
-      Sel({ login: false, register: false, forgot: true })
-      setD({
-        loginD: false,
-        registerD: false,
-        forgotD: true,
-        registerSuccess: false,
-      })
+      setErrorMessage('')
     }
   }
 
-  function navigateForgotPassword(){
-    navigate("/forgotPassword")
+  function navigateForgotPassword() {
+    navigate('/forgotPassword')
   }
 
   //Returning our HTML display
@@ -169,36 +196,29 @@ function Login() {
     <div className="display">
       {/* Image added to login page */}
       <div className="loginImage">
-        <img
-          src="https://cdn.discordapp.com/attachments/1079547041123946627/1087805510134280322/image_1.png"
-          alt=""
-        />
+        <img src={LoginImage} alt="" />
       </div>
 
       {/* Defining our login display, className depends on current state of the form*/}
-      <div className={showDisplay.loginD ? "loginDisplay" : "loginClose"}>
+      <div className={showDisplay.loginD ? 'loginDisplay' : 'loginClose'}>
         {/* Defining our form which includes our user input and the submit button */}
 
         <div className="selectors">
           <button
-            name={selected.login ? "selected" : "goToLogin"}
+            name={selected.login ? 'selected' : 'goToLogin'}
             type="button"
-            onClick={() => selectorSwap("login")}
+            onClick={() => selectorSwap('login')}
           >
             Login
           </button>
 
           <button
-            name={selected.register ? "selected" : "goToRegister"}
+            name={selected.register ? 'selected' : 'goToRegister'}
             type="button"
-            onClick={() => selectorSwap("register")}
+            onClick={() => selectorSwap('register')}
           >
             Register
           </button>
-
-          {/*<button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
-                        Forgot?
-                    </button>*/}
         </div>
 
         <div className="loginf">
@@ -207,7 +227,7 @@ function Login() {
               <h3 className="registerSuccesful">
                 Thank you for registering {username}
               </h3>
-              <p>
+              <p className="registerSuccesful">
                 Please check your email to verify your account before logging in
               </p>
             </div>
@@ -244,36 +264,32 @@ function Login() {
               <span className="error-message">{errorMessage}</span>
             </div>
           ) : (
-            ""
+            ''
           )}
         </div>
       </div>
 
       {/*Defining our entire register display*/}
       <div
-        className={showDisplay.registerD ? "registerDisplay" : "registerClose"}
+        className={showDisplay.registerD ? 'registerDisplay' : 'registerClose'}
       >
         {/* Defining our form which includes our user input and the submit button */}
         <div className="selectors">
           <button
-            name={selected.login ? "selected" : "goToLogin"}
+            name={selected.login ? 'selected' : 'goToLogin'}
             type="button"
-            onClick={() => selectorSwap("login")}
+            onClick={() => selectorSwap('login')}
           >
             Login
           </button>
 
           <button
-            name={selected.register ? "selected" : "goToRegister"}
+            name={selected.register ? 'selected' : 'goToRegister'}
             type="button"
-            onClick={() => selectorSwap("register")}
+            onClick={() => selectorSwap('register')}
           >
             Register
           </button>
-
-          {/*<button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
-                        Forgot?
-                    </button>*/}
         </div>
 
         <div className="registerf">
@@ -316,11 +332,24 @@ function Login() {
           <button name="selected" type="submit" onClick={RegisterFunc}>
             Register
           </button>
+
+          {errorMessage.length > 0 && (
+            <div className="error-div">
+              <span className="error-message">{errorMessage}</span>
+            </div>
+          )}
+          {feedback.length > 0 && (
+            <div className="feedback-div">
+              <p>The password does not meet the following criteria:</p>
+              <ul>
+                {feedback.map((message, index) => (
+                  <li key={index}>{message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
-      {/*Forgot display*/}
-
-      {/*Successful register display*/}
     </div>
   )
 }
