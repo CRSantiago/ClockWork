@@ -8,6 +8,7 @@ import './LoginButtons.css'
 import axios from 'axios'
 import { buildPath } from '../utils/buildPath'
 import validator from 'validator'
+import LoginImage from '../images/LoginImage.png'
 
 function Login() {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ function Login() {
   const [password, setPassword] = useState('') //Password default is empty
   const [confirmEmail, setEmailConfirm] = useState('') //Email default is empty
   const [confirmPassword, setPasswordConfirm] = useState('') //Password default is empty
+  const [feedback, setFeedBack] = useState('')
   const [username, setUserName] = useState('') //Usernae default is empty
   const [showDisplay, setD] = useState({
     loginD: true,
@@ -31,7 +33,6 @@ function Login() {
     forgot: false,
   }) //Selector button state
   const [isRegistered, setIsRegistered] = useState(false)
-  //const [authToken, setAuthToken] = useState(null)
 
   //Login function
   const LoginFunc = (event) => {
@@ -45,16 +46,12 @@ function Login() {
     axios
       .post(buildPath('api/v1/clockwork/login'), userLogin)
       .then((response) => {
-        console.log(response.data)
         if (response.data.error !== '') {
           setErrorMessage(response.data.error)
         } else {
           navigate('/')
         }
-        // else{
-        //     alert("Logged in as: " + username);
-        // }
-        // let authToken = null
+
         let authToken = response.data.token
         if (authToken.length !== 0) {
           localStorage.setItem('token', authToken)
@@ -67,18 +64,43 @@ function Login() {
       })
   }
 
+  const passwordRegex =
+    /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/
+
+  function validatePassword(passwordTest) {
+    if (!passwordRegex.test(passwordTest)) {
+      const feedback = []
+      if (!/(?=.*[a-z])/.test(passwordTest)) {
+        feedback.push('at least one lowercase letter')
+      }
+      if (!/(?=.*[A-Z])/.test(passwordTest)) {
+        feedback.push('at least one uppercase letter')
+      }
+      if (!/(?=.*\d)/.test(passwordTest)) {
+        feedback.push('at least one number')
+      }
+      if (!/(?=.*[!@#$%^&*])/.test(passwordTest)) {
+        feedback.push('at least 1 special character')
+      }
+      if (password.length < 8) {
+        feedback.push('at least 8 characters')
+      }
+      setFeedBack(feedback)
+      return false
+    }
+    return true
+  }
+
   //Register function
   const RegisterFunc = (event) => {
-    console.log('in RegisterFunc()')
     //Returns to login and adds user to database using api
     event.preventDefault()
     let emailIsValid = false
     if (validator.isEmail(email)) {
-      //setMessage('Valid Email')
       emailIsValid = true
     }
 
-    const passwordIsValid = password.length > 6
+    const passwordIsValid = validatePassword(password)
     const emailsAreEqual = email === confirmEmail
     const passwordsAreEqual = password === confirmPassword
 
@@ -88,15 +110,23 @@ function Login() {
       !emailsAreEqual ||
       !passwordsAreEqual
     ) {
-      alert('Invalid input - Please check your entered credentials.')
-      //   setCredentialsInvalid({
-      //     email: !emailIsValid,
-      //     confirmEmail: !emailIsValid || !emailsAreEqual,
-      //     password: !passwordIsValid,
-      //     confirmPassword: !passwordIsValid || !passwordsAreEqual,
-      //   })
+      if (!emailIsValid) {
+        setErrorMessage('You entered an invalid email. Please try again.')
+      } else if (!emailsAreEqual) {
+        setErrorMessage(
+          'The emails you entered do not match. Please try again.'
+        )
+      } else if (!passwordsAreEqual) {
+        setErrorMessage(
+          'The passwords you entered do not match. Please try again.'
+        )
+      } else {
+        setErrorMessage('')
+      }
+
       return
     }
+
     const userRegister = {
       email: email,
       username: username,
@@ -117,8 +147,15 @@ function Login() {
           })
           //Setting our selector back to login for user to login with new credentials
           setIsRegistered(true)
+          setErrorMessage('')
+          setFeedBack('')
+          //send email
+          axios
+            .get(buildPath(`api/v1/clockwork/verify/${email}`))
+            .then((response) => console.log(response))
         } else {
-          alert(`${response.data.error}`)
+          setFeedBack('')
+          setErrorMessage(response.data.error)
         }
       })
       .catch((error) => {
@@ -136,6 +173,7 @@ function Login() {
         forgotD: false,
         registerSuccess: false,
       })
+      setErrorMessage('')
     } else if (toSwap === 'register') {
       Sel({ login: false, register: true, forgot: false })
       setD({
@@ -144,15 +182,12 @@ function Login() {
         forgotD: false,
         registerSuccess: false,
       })
-    } else if (toSwap === 'forgot') {
-      Sel({ login: false, register: false, forgot: true })
-      setD({
-        loginD: false,
-        registerD: false,
-        forgotD: true,
-        registerSuccess: false,
-      })
+      setErrorMessage('')
     }
+  }
+
+  function navigateForgotPassword() {
+    navigate('/forgotPassword')
   }
 
   //Returning our HTML display
@@ -161,10 +196,7 @@ function Login() {
     <div className="display">
       {/* Image added to login page */}
       <div className="loginImage">
-        <img
-          src="https://cdn.discordapp.com/attachments/1079547041123946627/1087805510134280322/image_1.png"
-          alt=""
-        />
+        <img src={LoginImage} alt="" />
       </div>
 
       {/* Defining our login display, className depends on current state of the form*/}
@@ -187,17 +219,18 @@ function Login() {
           >
             Register
           </button>
-
-          {/*<button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
-                        Forgot?
-                    </button>*/}
         </div>
 
         <div className="loginf">
           {isRegistered && (
-            <h3 className="registerSuccesful">
-              Thank you for registering {username}
-            </h3>
+            <div>
+              <h3 className="registerSuccesful">
+                Thank you for registering {username}
+              </h3>
+              <p className="registerSuccesful">
+                Please check your email to verify your account before logging in
+              </p>
+            </div>
           )}
           <h1 className="loginFormText">Enter login below</h1>
 
@@ -217,6 +250,13 @@ function Login() {
 
           <button name="selected" type="submit" onClick={LoginFunc}>
             Log In
+          </button>
+
+          <button
+            className="forgotPasswordBtn"
+            onClick={navigateForgotPassword}
+          >
+            Forgot password?
           </button>
 
           {errorMessage.length !== 0 ? (
@@ -250,10 +290,6 @@ function Login() {
           >
             Register
           </button>
-
-          {/*<button name={selected.forgot ? "selected" : "goToForgot"} type="button" onClick={() => selectorSwap("forgot")}>
-                        Forgot?
-                    </button>*/}
         </div>
 
         <div className="registerf">
@@ -296,11 +332,24 @@ function Login() {
           <button name="selected" type="submit" onClick={RegisterFunc}>
             Register
           </button>
+
+          {errorMessage.length > 0 && (
+            <div className="error-div">
+              <span className="error-message">{errorMessage}</span>
+            </div>
+          )}
+          {feedback.length > 0 && (
+            <div className="feedback-div">
+              <p>The password does not meet the following criteria:</p>
+              <ul>
+                {feedback.map((message, index) => (
+                  <li key={index}>{message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
-      {/*Forgot display*/}
-
-      {/*Successful register display*/}
     </div>
   )
 }

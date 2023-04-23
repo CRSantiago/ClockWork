@@ -7,14 +7,11 @@ import DeleteConfirmationDialog from './Dialogs/DeleteDialog'
 import './Task.css'
 
 function Task({ task, onDelete }) {
-  console.log('task in task component')
-  console.log(task)
   const navigate = useNavigate()
 
   const [showConfirmation, setShowConfirmation] = useState(false)
 
   function handleDetails() {
-    console.log('details button clicked!')
     getTask(task.taskid).then((response) => {
       console.log(response.data)
       navigate('/TaskDetail', { state: { taskInfo: response.data } })
@@ -44,7 +41,6 @@ function Task({ task, onDelete }) {
         console.log(response)
       })
       .catch((error) => {
-        console.log(error)
         alert('task could not be deleted!')
         setShowConfirmation(false)
       })

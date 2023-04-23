@@ -1,4 +1,4 @@
-.container {
+.taskDetailcontainer {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -6,7 +6,8 @@
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
   display: flex;
-  height: 80vh;
+  height: auto;
+  max-height: 80vh;
 }
 
 .navBarDiv-details {
@@ -47,7 +48,7 @@ label {
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   height: 24px;
   justify-content: center;
   line-height: 1;
@@ -102,7 +103,7 @@ label {
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   height: 24px;
   justify-content: center;
   line-height: 1;
