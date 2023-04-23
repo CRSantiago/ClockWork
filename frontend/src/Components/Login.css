@@ -1,47 +1,57 @@
 /* Css for our login display */
-.display{
+.display {
   display: flex;
   flex-direction: row;
-  padding-left: 25%;
-  padding-top: 10%;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 
-.loginDisplay{
+.loginDisplay {
   display: flex;
   flex-direction: column;
   object-position: center;
   position: relative;
-  background-color: #1B4965;
+  background-color: #1b4965;
   border-radius: 5px;
 }
 
-.loginImage{
+.loginImage {
   display: flex;
   position: relative;
   object-position: left;
 }
 
-.loginf{
-  display:flex;
-  padding: 25px 25px;
+.loginf {
+  display: flex;
+  padding: 0px 25px;
   flex-direction: column;
+  align-items: center;
   flex-wrap: wrap;
   height: 100%;
+  width: auto;
+  max-width: 20vw;
 }
 
-.loginf > input{
+.loginf > input {
   padding: 20px 20px;
   box-sizing: border-box;
+  margin-bottom: 0.5em;
+  width: 100%;
 }
 
-.loginFormText{
+.loginFormText {
   display: flex;
   font-size: xx-large;
   text-align: center;
   color: white;
 }
 
-.loginClose{
+.loginClose {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -52,8 +62,39 @@
   width: 1px;
 }
 
-.registerSuccesful{
+.registerSuccesful {
   color: white;
   font-size: medium;
   text-align: center;
+}
+
+.error-div {
+  margin-top: 1em;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.error-message {
+  color: #f40a02;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.forgotPasswordBtn {
+  background: none;
+  border: none;
+  color: white;
+  padding-top: 1.2em;
+  cursor: pointer;
+}
+
+.forgotPasswordBtn:hover {
+  text-decoration: underline;
+}
+
+.feedback-div {
+  color: red;
+  font-size: 14px;
 }

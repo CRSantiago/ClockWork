@@ -1,63 +1,87 @@
+body {
+  background-color: #e5eff7;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.welcomeContainer {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.welcomeDiv {
+  width: 85%;
+  background-color: #5fa8d3;
+  display: flex;
+  color: black;
+  justify-content: center;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.welcomeDiv > h1 {
+  margin: 0.2em;
+  letter-spacing: 2px;
+}
+
+.navBarDiv {
+  width: 5%;
+  height: 90vh;
+  margin-right: 0.5em;
+}
+
 /*styling for the calendar view*/
-.calendarView{
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 80vh;
-    margin-left: -15em;
+.calendarView {
+  display: flex;
+  text-align: center;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  justify-content: center;
 }
 
-.calendar{
-    width: 600px;
-    height: 600px;
-    border: 1px solid black;
-    position: relative;
+.calendar {
+  width: 45vw;
+  height: 90vh;
+  border-width: 1px 2px 1px 1px;
+  border-style: solid solid solid solid;
+  border-color: black black black black;
+  background-color: white;
+  box-shadow: inset 1px -1px 5px 0px rgba(112, 111, 111, 0.75);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
-.calendar > p{
-    width: 600px;
-    height: 150px;
-    border: 1px solid black;
-    position: absolute;
-    bottom: -180px;
+/* .rbc-calendar {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+} */
+
+.LogOutButton {
+  margin-left: auto;
+  width: 80px;
+  height: 25px;
+  font-size: medium;
 }
 
-.emptySpace{
-    width: 50px;
-    height: 600px;
+.calendarTask {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  background-color: white;
 }
 
-.tasks{
-    display: block;
-    width: 500px;
-    height: 600px;
-    border: 1px solid black;
-    position: relative;
+.tasks {
+  display: block;
+  width: 35vw;
+  height: 90vh;
+  border-width: 1px 1px 1px 0px;
+  border-style: solid solid solid none;
+  border-color: black black black none;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: inset -1px -1px 5px 0px rgba(112, 111, 111, 0.75);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
-
-.tasks > p{
-    width: 500px;
-    height: 150px;
-    position: relative;
-    border: 1px solid black;
-    position: absolute;
-    bottom: -180px;
-}
-
-.hideMain{
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-
-/*Mofidying the react-big-calendar itself*/
-.rbc-calendar {
-    font-size: 10px;
-  }

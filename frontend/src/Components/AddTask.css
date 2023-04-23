@@ -1,0 +1,118 @@
+.addTask-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  height: auto;
+  max-height: 80vh;
+}
+
+.navBarDiv-addtask {
+  width: 12%;
+  margin-right: 0.5em;
+}
+
+.form-container {
+  border: 1px solid black;
+  background-color: #1b4965;
+  color: white;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.full-width {
+  grid-column: 1 / 3;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  padding: 5px;
+}
+
+.form-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  width: 90%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+select {
+  width: 90%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+textarea {
+  width: 90%;
+}
+
+.addTaskButton {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #83c5be 0,
+    #45a29e 100%
+  );
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: 'JetBrains Mono', monospace;
+  height: 24px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  font-size: 14px;
+  margin-right: 1em;
+}
+
+.addTaskButton:focus {
+  box-shadow: #206d5c 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #206d5c 0 -3px 0 inset;
+}
+
+.addTaskButton:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #206d5c 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.addTaskButton:active {
+  box-shadow: #206d5c 0 3px 7px inset;
+  transform: translateY(2px);
+}

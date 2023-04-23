@@ -1,148 +1,170 @@
 import format from 'date-fns/format'
 import getDay from 'date-fns/getDay'
-//import parseISO from "date-fns/parseISO";
-import { parseISO } from 'date-fns'
 import startOfWeek from 'date-fns/startOfWeek'
 import React, { useState, useEffect } from 'react'
-import { Calendar, dateFnsLocalizer, momentLocalizer } from 'react-big-calendar'
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment'
-import axios from 'axios'
-import { buildPath } from '../utils/buildPath'
+import { useNavigate } from 'react-router-dom'
 import './Calendar.css'
-import LogOut from './LogOut'
+import { setTasks } from '../data/setTasks.js'
+import Navbar from './Navigation/Navbar'
+import Task from './Task'
 
 //defining our calendar locale
 const locales = {
   'en-US': require('date-fns/locale/en-US'),
 }
 
-//
 const localizer = dateFnsLocalizer({
   format,
-  parseISO,
   startOfWeek,
   getDay,
   locales,
 })
 
-function Main() {
-  //Defining our event variables
-  //const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-  const [allEvents, setAllEvents] = useState([])
-  const [tasks, setTask] = useState({ taskName: '', description: '' })
+function CalendarComponent() {
+  //Task array
+  const taskArray = []
 
   //Current date variable
   var currentDate = new Date()
   var currentMonth = currentDate.getMonth()
+  var currentYear = currentDate.getFullYear()
 
-  //Task array
-  var taskArray = []
+  const navigate = useNavigate()
 
-  //User id
-  var userID = localStorage.getItem('userid')
+  //Defining our event variables
+  const [allEvents, setAllEvents] = useState(taskArray)
+  const [eventsLoaded, setEventsLoaded] = useState(false)
+  const [currDate, setCurrDate] = useState(currentDate)
+  const [currMonth, setCurrMonth] = useState(currentMonth)
+  const [taskElements, setTaskElements] = useState([])
 
-  //Function to get task title from task information
-  const getTaskTitle = async (id) => {
-    let jsonbuffer
-    let parsed
-    let tasktitle
-    try {
-      const response = await axios.get(
-        buildPath('api/v1/clockwork/getTask/' + id),
-        { headers: { token: localStorage.getItem('token') } }
-      )
-      jsonbuffer = JSON.stringify(response.data[0])
-      parsed = JSON.parse(jsonbuffer)
-      tasktitle = parsed.title
-      return tasktitle
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //defining our variables for this function
+  let foreignid
+  let task
+  let title
+  let start
+  let end
+  let bufferArray
+  let buffer
 
-  //Setting our calendar to the user default from the database
-  const setCalendar = (array) => {
-    //defining our variables for this function
-    let title
-    let start
-    let end
-    let bufferArray
-    let buffer
-
-    //Getting the server response using axios REMEBER TO ADDD +1 TO CURRENT MONTH, NOT ADDING AS NO TESTS IN THIS MONTH
-    axios
-      .get(
-        buildPath(
-          'api/v1/clockwork/getCalendar/' +
-            userID.toString() +
-            '/' +
-            (currentMonth + 1).toString()
-        ),
-        {
-          headers: {
-            token: localStorage.getItem('token'),
-          },
-        }
-      )
-      // .then(async response =>{
-      //   //looping through our task array for the given month
-      //   for(let i = 0; i < response.data.length; i++){
-      //     //storing the json at the current index in a buffer
-      //     bufferArray = JSON.stringify(response.data[i]);
-      //     //parsing the json
-      //     buffer = JSON.parse(bufferArray);
-      //     //setting the title to the json task
-      //     title = buffer.Task;
-      //     title = await getTaskTitle(title);
-      //     //setting the start date to the current task date
-      //     start = new Date(2023, (currentMonth), parseInt(buffer.day));
-      //     //setting the end date to the current task date
-      //     end = new Date(2023, (currentMonth), parseInt(buffer.day));
-
-      //     array.push({title: title, start: start, end: end});
-      //   }
-      //   console.log(array);
-      // })
+  useEffect(() => {
+    setTasks(currMonth)
       .then((response) => {
-        console.log(response)
-      })
+        //looping through our task array for the given month
+        //console.log(response.data)
+
+        setEventsLoaded(false)
+        for (let i = 0; i < response.data.length; i++) {
+          task = response.data[i].Task
+          foreignid = response.data[i]._id
+
+          //storing the json at the current index in a buffer
+          bufferArray = JSON.stringify(response.data[i])
+          //parsing the json
+          buffer = JSON.parse(bufferArray)
+          //setting the title to the json task
+          title = buffer.title
+          //setting the start date to the current task date
+          start = new Date(currentYear, currMonth, parseInt(buffer.day))
+          //setting the end date to the current task date
+          end = new Date(currentYear, currMonth, parseInt(buffer.day))
+
+          taskArray.push({
+            foreignidid: foreignid,
+            taskid: task,
+            title: title,
+            start: start,
+            end: end,
+          })
+        }
+        // after api call, set initial variables
+        setAllEvents(taskArray)
+        setEventsLoaded(true)
+        const initTaskElementsFiltered = allEvents.filter(
+          (task) => task.start.getDate() === currDate.getDate()
+        )
+        const initialTaskElements = initTaskElementsFiltered.map(
+          (task, index) => {
+            return <Task key={index} task={task} />
+          }
+        )
+        setTaskElements(initialTaskElements)
+        // end of variable initialization
+      }) // end of then
       .catch((error) => {
         console.error(error)
       })
+  }, [eventsLoaded, currMonth])
+
+  // force a reload after task deletion to retrieve new calendar
+  // passed as prop to Task component
+  function handleLoadingAfterDelete() {
+    setEventsLoaded(false)
   }
 
-  //initiating our events state
-  useEffect(() => {
-    setCalendar(taskArray)
-    //setAllEvents(taskArray)
-  }, [])
-
+  /*
+    Takes in a date selected in calendar ui. 
+    Based on the input, we then filter the allEvents to update the Task displayed in panel to reflect those task
+  */
+  function handleDateChange(date) {
+    const newTaskElementsFiltered = allEvents.filter(
+      (task) => task.start.getDate() === date.getDate()
+    )
+    const newTaskElements = newTaskElementsFiltered.map((task, index) => {
+      return (
+        <Task key={index} task={task} onDelete={handleLoadingAfterDelete} />
+      )
+    })
+    setTaskElements(newTaskElements)
+    setCurrDate(date)
+  }
   return (
-    <div className="calendarView">
-      <LogOut />
-      <div className="calendar">
-        <Calendar
-          localizer={localizer}
-          events={allEvents}
-          startAccessor="start"
-          endAccessor="end"
-        />
-
-        <p name="information">Information</p>
+    <>
+      <div className="welcomeContainer">
+        <div className="welcomeDiv">
+          <h1>Clockwork Dashboard</h1>
+        </div>
       </div>
+      <div className="calendarView">
+        <div className="navBarDiv">
+          <Navbar />
+        </div>
 
-      <div className="emptySpace">{/*Empty space for styling purposes*/}</div>
+        <div className="calendarTask">
+          <div className="calendar">
+            <Calendar
+              date={currDate}
+              localizer={localizer}
+              events={allEvents}
+              startAccessor="start"
+              endAccessor="end"
+              onNavigate={(newDate) => {
+                setCurrMonth(newDate.getMonth())
+                setCurrDate(newDate)
+              }}
+              onSelectEvent={(data) => {
+                handleDateChange(data.start)
+              }}
+              onSelectSlot={(data) => {
+                handleDateChange(data.start)
+              }}
+              selectable
+            />
+          </div>
 
-      <div className="tasks">
-        <h1>{currentDate.toDateString()}</h1>
-        Tasks
-        <p name="notes">Notes</p>
+          <div className="tasks">
+            <h1>{currDate.toDateString()}</h1>
+            <h3>Tasks</h3>
+            <div>
+              {taskElements.length === 0 ? 'No task for today!' : taskElements}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
-export default Main
+export default CalendarComponent
