@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { Alert, StyleSheet, View, Image, Text} from 'react-native'
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native'
 import { navigator, useNavigation } from '@react-navigation/native'
 
 import FlatButton from '../ui/FlatButton'
@@ -61,19 +69,24 @@ function AuthContent({ isLogin, onAuthenticate, signUpSuccessMessage }) {
 
   return (
     <View style={styles.authContent}>
-      <Text style={styles.heading}>Welcome to Clockwork</Text>
-      <Image style={styles.image} source={require('../../../assets/home-image.png')} />
-      <AuthForm
-        isLogin={isLogin}
-        onSubmit={submitHandler}
-        credentialsInvalid={credentialsInvalid}
-        signUpSuccessMessage={signUpSuccessMessage}
-      />
-      <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
-        </FlatButton>
-      </View>
+      <ScrollView>
+        <Text style={styles.heading}>Welcome to Clockwork</Text>
+        <Image
+          style={styles.image}
+          source={require('../../../assets/home-image.png')}
+        />
+        <AuthForm
+          isLogin={isLogin}
+          onSubmit={submitHandler}
+          credentialsInvalid={credentialsInvalid}
+          signUpSuccessMessage={signUpSuccessMessage}
+        />
+        <View style={styles.buttons}>
+          <FlatButton onPress={switchAuthModeHandler}>
+            {isLogin ? 'Create a new user' : 'Log in instead'}
+          </FlatButton>
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -96,14 +109,14 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 8,
   },
-  image:{
-    height:300,
-    width:'100%'
+  image: {
+    height: 300,
+    width: '100%',
   },
-  heading:{
-    color:'white',
-    paddingBottom:10,
-    fontSize:16,
-    fontWeight:'bold'
-  }
+  heading: {
+    color: 'white',
+    paddingBottom: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 })

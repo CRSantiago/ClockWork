@@ -1,4 +1,10 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native'
 import { Colors } from '../../../constants/styles'
 
 function Input({
