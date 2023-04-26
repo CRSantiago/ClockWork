@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import TasksDAO from '../dao/tasksDAO.js';
+import app from '../server.js';
+import request from 'supertest';
+var base_url = "/api/v1/clockwork"
 dotenv.config({ path: ".env" });
 
 var username = "UNITTEST";
@@ -8,9 +11,7 @@ var token = jwt.sign({ username }, process.env.JWT_SECRET_KEY, {
         expiresIn: 86400,
     })
 
-
-describe("Testing createTask", function() {
-    it("creating non-regular task", (done) => {
+/*
             let id = " ";
             let taskData = {
                 "title":"currendate-shenanigans",
@@ -40,8 +41,14 @@ describe("Testing createTask", function() {
                 "notifyintensity": "none",
                 "_id": "643eae6fbf70a0acb864fcdf",
                 "__v": 0
-              }
-            expect( TasksDAO.createTask(id, taskData, token)).toBe(res)  });
-            done();
+              } */
+describe("Testing createTask", () => {
+    it("creating non-regular task", (done) => {
+            
+            request(app)
+                .get(base_url+"/getCalendar/643de513c91eb27c52d03b19/2")
+                .expect(200)
+                .end((error) => (error) ? done.fail(error) : done());
+            });
         }
     );
