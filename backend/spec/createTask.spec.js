@@ -42,13 +42,15 @@ var token = jwt.sign({ username }, process.env.JWT_SECRET_KEY, {
                 "_id": "643eae6fbf70a0acb864fcdf",
                 "__v": 0
               } */
-describe("Testing createTask", () => {
-    it("creating non-regular task", (done) => {
-            
+describe("Testing Intergration", () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000000;
+    it("checking getCalander", function(done) {
             request(app)
-                .get(base_url+"/getCalendar/643de513c91eb27c52d03b19/2")
+                .get(base_url+"/getCalendar/641a7cde9c56234053c47794/2")
+                .set('token', token)
                 .expect(200)
                 .end((error) => (error) ? done.fail(error) : done());
             });
+            console.log("bruh");
         }
     );
