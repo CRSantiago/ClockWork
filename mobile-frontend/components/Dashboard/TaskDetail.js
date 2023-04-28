@@ -118,10 +118,23 @@ function TaskDetail({ visibility, taskid, onClose }) {
   }
 
   return (
-    <KeyboardAwareScrollView>
-      <Modal visible={visibility} animationType="slide">
+    <Modal visible={visibility} animationType="slide">
+      <KeyboardAwareScrollView
+        style={{ flex: 1, backgroundColor: '#1b4965' }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <View style={styles.taskDetailContainer}>
-          <ScrollView style={styles.scrollViewContainer}>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <Text style={styles.mainTitle}>Task Details</Text>
             {taskInfo && (
               <View>
@@ -239,7 +252,7 @@ function TaskDetail({ visibility, taskid, onClose }) {
                         color: '#000',
                         borderWidth: 1,
                         borderColor: '#ccc',
-                        width: '50%',
+                        width: '100%',
                       }}
                       itemStyle={{ height: 30, paddingVertical: 20 }}
                       selectedValue={selectedInterval}
@@ -286,7 +299,7 @@ function TaskDetail({ visibility, taskid, onClose }) {
                         color: '#000',
                         borderWidth: 1,
                         borderColor: '#ccc',
-                        width: '50%',
+                        width: '100%',
                       }}
                       itemStyle={{ height: 30, paddingVertical: 20 }}
                       selectedValue={selectedNotify}
@@ -350,8 +363,8 @@ function TaskDetail({ visibility, taskid, onClose }) {
             </View>
           </ScrollView>
         </View>
-      </Modal>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </Modal>
   )
 }
 
@@ -362,10 +375,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1b4965',
   },
-  scrollViewContainer: {
-    marginTop: 80,
-  },
-
   textContainer: {
     marginBottom: 24,
     justifyContent: 'center',

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
+import { Colors } from '../constants/styles.js'
 
 import CalendarContent from '../components/Dashboard/CalendarContent.js'
 
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
     alignItems: 'center',
     padding: 32,
+    backgroundColor: Colors.primary100,
   },
   title: {
     fontSize: 20,
