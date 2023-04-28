@@ -12,6 +12,7 @@ function CalendarContent() {
   const [taskElements, setTaskElements] = useState([])
   const [markedDates, setMarkedDates] = useState({})
   const [selected, setSelected] = useState('')
+  const [eventsLoaded, setEventsLoaded] = useState(false)
 
   //Current date variable
   var currentDate = new Date()
@@ -69,7 +70,7 @@ function CalendarContent() {
           end = new Date(currentYear, currMonth, parseInt(task.day))
 
           title = task.title
-          console.log(start.toString())
+
           taskArray.push({
             foreignidid: foreignid,
             taskid: taskid,
@@ -93,21 +94,30 @@ function CalendarContent() {
         }
         setMarkedDates(markedDatesObject)
         setTaskElements(taskArray)
+        setEventsLoaded(true)
         setKey((prevKey) => prevKey + 1)
       })
       .catch((error) => {
         console.error(`error:${error}`)
       })
-  }, [currMonth])
+  }, [eventsLoaded, currMonth])
 
-  console.log(taskElements)
-  console.log(markedDates)
+  //console.log(taskElements)
+  //console.log(markedDates)
+
   const matchingTasks = taskElements.filter(
     (task) => moment(task.start).format('YYYY-MM-DD') === selectedDate
   )
   const taskMap = matchingTasks.map((task, index) => (
-    <Task key={index} task={task} />
+    <Task key={index} task={task} onDelete={handleLoadingAfterDelete} />
   ))
+
+  // force a reload after task deletion to retrieve new calendar
+  // passed as prop to Task component
+  function handleLoadingAfterDelete() {
+    setEventsLoaded(false)
+  }
+
   return (
     <View>
       <Calendar
