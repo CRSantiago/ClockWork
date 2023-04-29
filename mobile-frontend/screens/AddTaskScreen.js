@@ -1,4 +1,4 @@
-import { useContext, useCallback, useEffect } from 'react'
+import { useContext, useCallback } from 'react'
 import {
   LogBox,
   View,
@@ -14,11 +14,10 @@ import { Picker } from '@react-native-picker/picker'
 import DatePicker from 'react-native-datepicker'
 import { useState } from 'react'
 
-import { AuthContext } from '../../store/auth-context'
-import { createTask } from '../../api/createTask'
-import { useIsFocused } from '@react-navigation/native'
+import { AuthContext } from '../store/auth-context'
+import { createTask } from '../api/createTask'
 
-function AddTask() {
+function AddTaskScreen() {
   LogBox.ignoreLogs(['Animated: `useNativeDriver`'])
   const authCtx = useContext(AuthContext)
   const [formData, setFormData] = useState({
@@ -83,24 +82,26 @@ function AddTask() {
   function handleSubmit() {
     console.log('handle submit')
     console.log(formData)
-    createTask(formData, authCtx.token).then((response) => {
-      if (response.status === 200) {
-        setSuccessfulAdd(true)
-        setFormData({
-          title: '',
-          user: authCtx.userid,
-          datestart: '',
-          dateend: '',
-          description: '',
-          interval: {
-            unit: 'none',
-            value: 0,
-          },
-          notes: '',
-          notifyintensity: 'none',
-        })
-      }
-    })
+    createTask(formData, authCtx.token)
+      .then((response) => {
+        if (response.status === 200) {
+          setSuccessfulAdd(true)
+          setFormData({
+            title: '',
+            user: authCtx.userid,
+            datestart: '',
+            dateend: '',
+            description: '',
+            interval: {
+              unit: 'none',
+              value: 0,
+            },
+            notes: '',
+            notifyintensity: 'none',
+          })
+        }
+      })
+      .catch((error) => console.error(error))
   }
 
   function handleCancel() {
@@ -324,4 +325,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AddTask
+export default AddTaskScreen

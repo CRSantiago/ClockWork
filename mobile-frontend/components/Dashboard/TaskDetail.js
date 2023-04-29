@@ -28,17 +28,18 @@ function TaskDetail({ visibility, taskid, onClose }) {
   const [formData, setFormData] = useState({})
   const [selectedInterval, setSelectedInterval] = useState('none')
   const [selectedNotify, setSelectedNotify] = useState('none')
+  const [updatedTask, setUpdatedTask] = useState(false)
 
   const getTaskCallback = useCallback(() => {
     LogBox.ignoreLogs(['Animated: `useNativeDriver`'])
     getTask(taskid, authCtx.token)
       .then((response) => setTaskInfo(response.data[0]))
       .catch(console.log('could not resolve task'))
-  }, [taskid, authCtx.token])
+  }, [taskid, authCtx.token, updatedTask])
 
   useEffect(() => {
     getTaskCallback()
-  }, [getTaskCallback])
+  }, [getTaskCallback, updatedTask])
 
   console.log(taskInfo)
 
@@ -112,6 +113,7 @@ function TaskDetail({ visibility, taskid, onClose }) {
     updateTask(formData, authCtx.token)
       .then((response) => {
         console.log(response)
+        setUpdatedTask(true)
       })
       .catch((e) => console.log(e))
     setMakeEditable(false)

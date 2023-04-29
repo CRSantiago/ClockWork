@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons'
 import LoginScreen from './screens/LoginScreen'
 import SignupScreen from './screens/SignupScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
-import AddTask from './components/Dashboard/AddTask'
+import AddTaskScreen from './screens/AddTaskScreen'
 import { Colors } from './constants/styles'
 import AuthContextProvider, { AuthContext } from './store/auth-context'
 import IconButton from './components/Login/ui/IconButton'
@@ -69,7 +69,7 @@ function AuthenticatedStack() {
       />
       <Drawer.Screen
         name="Add Task"
-        component={AddTask}
+        component={AddTaskScreen}
         options={({ navigation }) => ({
           headerStyle: { backgroundColor: Colors.primary500 },
           headerTintColor: 'white',
