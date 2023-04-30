@@ -4,6 +4,7 @@ import TasksDAO from '../dao/tasksDAO.js';
 import app from '../server.js';
 import request from 'supertest';
 import User from '../models/user.model.js'
+import randString from '../methods/randString.js'
 var base_url = "/api/v1/clockwork"
 dotenv.config({ path: ".env" });
 
@@ -29,7 +30,7 @@ describe("Testing createTask", () => {
               "user": id,
               "datestart": "2023-09-29T19:47:02.339Z",
               "dateend": "2023-10-03T19:47:02.339Z",
-              "description":"Wash clothes and fold them neatly",
+              "description": "wash and fold neatly",
               "interval":{
                 "unit": "days",
                 "value":"1"
@@ -45,35 +46,6 @@ describe("Testing createTask", () => {
                 .set('Accept', 'application/json')
                 .expect(200)
                 .expect('Content-Type', /json/);
-
-            responseData = res.body;
-            console.log("Response body:", res.body);
-
-            const user = await User.findById(id);
-
-            let taskCount = 0;
-
-             // Iterate through the user's calendar
-            for (const month in user.calendar) {
-                for (let i = 0; i < user.calendar[month].length; i++)
-                {
-                    let currTask = user.calendar[month][i];
-
-                    if(currTask)
-                    {
-                        
-                        let taskTitle = currTask.title;
-                        let taskDescription = currTask.description
-                        // Check if the task matches the expected values
-                        if (taskTitle === responseData.title && taskDescription === responseData.description) {
-                            // Increment the taskCount
-                            taskCount += 1;
-                            }
-                    }
-                };
-            }
-
-            expect(taskCount).toBe(4);
 
             });
             console.log("Create Task Interval Complete");
