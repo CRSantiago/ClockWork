@@ -3,7 +3,7 @@
 This is a task manager app that features a calendar UI. It is designed to help users keep track of their tasks, events, and appointments in a single location. The app is built using modern web technologies, making it accessible from any device with an internet connection.
 Features
 
-    Calendar UI: The app features a calendar UI, allowing users to view their tasks, events, and appointments in a visual format.
+    Calendar UI: The app features a calendar UI, allowing users to view their tasks in a visual format.
     Task Manager: The app provides a task manager that allows users to add, edit, and delete tasks.
     User Authentication: The app requires user authentication to ensure privacy and security.
     
